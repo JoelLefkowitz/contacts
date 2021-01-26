@@ -2,15 +2,11 @@
   "name": "contacts",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "dev": "ng serve --proxy-config dev.proxy.conf.json"
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/file-input": "^5.0.1",
     "@angular/animations": "~10.0.11",
     "@angular/cdk": "^10.2.7",
     "@angular/common": "~10.0.11",

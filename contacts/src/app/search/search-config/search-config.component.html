@@ -1,0 +1,15 @@
+<form [formGroup]="searchConfig">
+    <mat-list fxLayout="column" fxLayoutAlign="center" class="form-conatainer">
+        <mat-form-field class="search-field" appearance="outline">
+            <mat-label>Sort by</mat-label>
+            <mat-select formControlName="sortBy">
+                <mat-option *ngFor="let option of sortOptions" [value]="option">{{option}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="center" class="search-field">    
+            <mat-label>Exact match</mat-label>
+            <mat-checkbox class="checkbox" formControlName="exactMatch"></mat-checkbox>
+        </div>
+    </mat-list>
+</form>
+

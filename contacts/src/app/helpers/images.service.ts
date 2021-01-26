@@ -11,7 +11,7 @@ import { catchError, } from 'rxjs/operators';
 })
 export class ImagesService {
   
-  placeholderImage = "/assets/icons/avatar.svg"
+  placeholderImage = "/assets/avatar.svg"
   imagesBackend = "/api/contacts/images/"
   
   constructor(private http: HttpClient, private restService: RestService) { }

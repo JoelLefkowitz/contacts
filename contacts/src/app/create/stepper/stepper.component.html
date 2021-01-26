@@ -1,0 +1,50 @@
+<form id="create-contact" [formGroup]="contactDetails">
+    <mat-vertical-stepper linear #stepper>
+        <mat-step stepControl="firstName">
+            <ng-template matStepLabel>First name</ng-template>
+            <mat-form-field>
+                <mat-label>First name</mat-label>
+                <input matInput formControlName="firstName" required>
+            </mat-form-field>
+            <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step stepControl="lastName">
+            <ng-template matStepLabel>Last name</ng-template>
+            <mat-form-field>
+                <mat-label>Last name</mat-label>
+                <input matInput formControlName="lastName" required>
+            </mat-form-field>
+            <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step stepControl="phoneNumber">
+            <ng-template matStepLabel>Phone number</ng-template>
+            <mat-form-field>
+                <mat-label>Phone number</mat-label>
+                <input matInput formControlName="phoneNumber" optional>
+            </mat-form-field>
+            <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step stepControl="icon">
+            <ng-template matStepLabel>Icon</ng-template>
+            <mat-form-field>
+                <ngx-mat-file-input [formControl]="icon"
+                    accept="image/png, image/jpeg" optional>
+                </ngx-mat-file-input>
+            </mat-form-field>
+            <button mat-button matStepperNext>Next</button>
+        </mat-step>
+    </mat-vertical-stepper>
+    <button
+            mat-flat-button
+            type="submit"
+            id="create-contact-submit"
+            (click)="onSubmit()"
+            [disabled]="!contactDetails.valid"
+            color="primary"
+            class="submit-button"
+        >
+            Submit
+    </button>
+</form>
+
+<app-fab routerLink="" class="fab" aria-label="Go back" icon="home"></app-fab>

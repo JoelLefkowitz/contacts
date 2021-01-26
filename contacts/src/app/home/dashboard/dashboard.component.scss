@@ -1,0 +1,19 @@
+.content-container {
+    min-height: 100vh;
+}
+
+.drawer {
+    min-width: 300px;
+    max-height: 100vh;
+    overflow: scroll;
+}
+
+.results-container {
+ margin: 10px;
+ height: calc(100vh - 240px);
+ overflow: scroll;   
+}
+
+.paginator {
+    background: transparent;
+}
