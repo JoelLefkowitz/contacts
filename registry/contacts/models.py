@@ -1,19 +1,25 @@
-from django.db import models
-from django.db.models import Model, CharField, ForeignKey, ManyToManyField, FileField, CASCADE
+from django.db.models import (
+    CASCADE,
+    CharField,
+    FileField,
+    ForeignKey,
+    ManyToManyField,
+    Model,
+)
 from jsonfield import JSONField
 
 
 class Image(Model):
-    image = FileField(upload_to='images/%Y/%m/%d')
+    image = FileField(upload_to="images/%Y/%m/%d")
 
 
 class Contact(Model):
     first_name = CharField(max_length=50)
     last_name = CharField(max_length=50)
     phone_number = CharField(max_length=20, null=True)
-    
+
     notes = JSONField(null=True)
-    
+
     icon = ForeignKey(Image, null=True, on_delete=CASCADE, related_name="icon_contacts")
     photos = ManyToManyField(Image)
 

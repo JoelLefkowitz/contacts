@@ -1,5 +1,6 @@
-from .base import *
 from safe_environ import from_env
+
+from .base import *
 
 DEBUG = False
 SECRET_KEY = from_env("SECRET_KEY")

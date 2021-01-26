@@ -1,10 +1,9 @@
+import debug_toolbar
 from django.conf import settings
 from django.urls import include, path
-from rest_framework import permissions
-
-import debug_toolbar
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
 urlpatterns = [
     path("api/contacts/", include("contacts.urls")),

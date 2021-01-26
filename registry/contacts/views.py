@@ -1,6 +1,7 @@
-from .models import Image, Contact
-from .serializers import ImageSerializer, ContactSerializer
 from rest_framework.viewsets import ModelViewSet
+
+from .models import Contact, Image
+from .serializers import ContactSerializer, ImageSerializer
 
 
 class ImagesViewSet(ModelViewSet):
@@ -11,5 +12,3 @@ class ImagesViewSet(ModelViewSet):
 class ContactsViewSet(ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-
-
