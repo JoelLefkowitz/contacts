@@ -18,23 +18,23 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { NgModule } from '@angular/core';
 
 const materialModules = [
-  MatCardModule,
-  MatCardModule,
-  MatDialogModule,
-  MatCheckboxModule,
   MatButtonModule,
-  MatSelectModule,
-  MatStepperModule,
-  MatIconModule,
-  MatSlideToggleModule,
-  MatPaginatorModule,
-  MatListModule,
+  MatCardModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatDividerModule,
   MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatPaginatorModule,
   MatProgressBarModule, 
-  MatToolbarModule, 
+  MatSelectModule,
   MatSidenavModule,
-  MatInputModule, 
-  MatDividerModule
+  MatSlideToggleModule,
+  MatStepperModule,
+  MatToolbarModule 
 ];
 
 @NgModule({  
