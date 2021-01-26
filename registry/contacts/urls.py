@@ -5,11 +5,11 @@ from .views import ContactsViewSet, ImagesViewSet
 urlpatterns = [
     path("", ContactsViewSet.as_view({"get": "list", "post": "create"})),
     path(
-        "<int:pk>",
+        "<int:pk>/",
         ContactsViewSet.as_view(
             {"get": "retrieve", "put": "update", "delete": "destroy"}
         ),
     ),
-    path("images", ImagesViewSet.as_view({"post": "create"})),
-    path("images/<int:pk>", ImagesViewSet.as_view({"get": "retrieve"})),
+    path("images/", ImagesViewSet.as_view({"post": "create"})),
+    path("images/<int:pk>/", ImagesViewSet.as_view({"get": "retrieve"})),
 ]

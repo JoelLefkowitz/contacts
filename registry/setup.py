@@ -12,6 +12,7 @@ if __name__ == "__main__":
             "randutils",
             "gunicorn",
             "psycopg2",
+            "Pillow",
             "safe_environ",
             "jsonfield",
         ],

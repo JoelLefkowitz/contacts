@@ -1,7 +1,7 @@
 from django.db.models import (
     CASCADE,
     CharField,
-    FileField,
+    ImageField,
     ForeignKey,
     ManyToManyField,
     Model,
@@ -10,7 +10,7 @@ from jsonfield import JSONField
 
 
 class Image(Model):
-    image = FileField(upload_to="images/%Y/%m/%d")
+    image = ImageField(upload_to="images/%Y/%m/%d")
 
 
 class Contact(Model):
