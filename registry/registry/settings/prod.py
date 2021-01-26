@@ -20,4 +20,14 @@ DATABASES = {
     }
 }
 
+memcached_host = (from_env("MEMCACHED_HOST"),)
+memcached_port = (from_env("MEMCACHED_PORT"),)
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": f"{memcached_host}{memcached_port}",
+    }
+}
+
 REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = ("rest_framework.renderers.JSONRenderer",)

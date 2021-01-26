@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "ng serve --proxy-config dev.proxy.conf.json",
-    "electron-build": "ng build --base-href ./",
-    "electron": "electron ./electron/main.js"
+    "electron": "ng build --base-href ./ && electron ./electron/main.js"
   },
   "private": true,
   "dependencies": {
