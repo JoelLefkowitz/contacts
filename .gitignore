@@ -1,3 +1,5 @@
+regisrty/registry/media
+
 __pypackages__/
 !.vscode/extensions.json
 !.vscode/launch.json
