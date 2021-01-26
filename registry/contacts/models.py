@@ -24,7 +24,7 @@ class Contact(Model):
     photos = ManyToManyField(Image)
 
     def __str__(self):
-        return f"{self.lastName} {self.lastName}"
+        return f"{self.last_name} {self.last_name}"
 
     class Meta:
         ordering = ["last_name"]

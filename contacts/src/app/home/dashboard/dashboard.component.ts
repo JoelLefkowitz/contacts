@@ -30,7 +30,6 @@ export class DashboardComponent implements OnInit {
       ])
       .pipe(
       debounceTime(50),
-      distinctUntilChanged(),
       switchMap(
         ([searchInput, searchConfig, paginatorConfig]) => {
           const limit = paginatorConfig ? paginatorConfig.pageSize : null;

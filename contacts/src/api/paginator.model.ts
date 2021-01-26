@@ -13,8 +13,8 @@ export type Paginated<T> = {
 }
 
 export const defaultPaginatorConfig = {
-    length: 10,
+    length: 0,
     pageIndex: 0,
-    pageSize: 0,
+    pageSize: 50,
     previousPageIndex: 0,
 }

@@ -1,10 +1,10 @@
-import { Image, ImagePayload } from 'src/api/image.model';
+import { Observable, from, of } from 'rxjs';
+import { catchError, map, switchMap, tap, } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
+import {Image} from 'src/api/image.model';
 import { Injectable } from '@angular/core';
-import { Observable, } from 'rxjs';
 import { RestService } from './rest.service';
-import { catchError, } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +30,13 @@ export class ImagesService {
     );
   }
   
-  uploadImage(payload: ImagePayload): Observable<Image> {
+
+  uploadImage(image: File): Observable<Image> {
     return this.http.post<Image>(
-      this.imagesBackend,
-      payload,
-      this.restService.defaultHeaders()
-    ).pipe(
+        this.imagesBackend,
+        {image},
+        this.restService.defaultHeaders()
+      ).pipe(
       catchError(this.restService.handleError)
       )
     }

@@ -10,4 +10,5 @@ source venv/bin/activate
 
 cd registry
 python manage.py migrate
+python manage.py create_demo_data
 python manage.py runserver

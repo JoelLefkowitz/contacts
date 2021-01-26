@@ -86,7 +86,12 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
 
   addNote(): void {
     if (this.contactDetails.value.newNote) {
-      this.contact.notes.unshift(this.contactDetails.value.newNote);
+      if (this.contact.notes){
+        this.contact.notes.unshift(this.contactDetails.value.newNote)
+      }
+      else {
+        this.contact.notes = [this.contactDetails.value.newNote]
+      }
       this.updateContact();
     }
   }
@@ -109,12 +114,11 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
   }
   
   updateContact(): void {
-    this.contactsService.updateContact(this.contact);
-    this.fetchContact()
+    this.contactSubscription = this.contactsService.updateContact(this.contact).subscribe();
   }
   
   deleteContact(): void {
-    this.contactsService.deleteContact(this.contactId);
+    this.contactSubscription = this.contactsService.deleteContact(this.contactId).subscribe();
     this.router.navigateByUrl("/")
   }
   
