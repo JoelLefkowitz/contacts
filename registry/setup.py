@@ -15,6 +15,7 @@ if __name__ == "__main__":
             "Pillow",
             "safe_environ",
             "jsonfield",
+            "names"
         ],
         extras_require={
             "docs": [

@@ -41,13 +41,16 @@ To serve the frontend in the browser (port 4200)
 
 ```bash
 cd contacts
+npm i
+```
+
+```bash
 npm run dev
 ```
 
 To run with electron
 
 ```bash
-cd contacts
 npm run electron
 ```
 
