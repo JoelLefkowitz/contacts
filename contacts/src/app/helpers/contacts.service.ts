@@ -13,7 +13,7 @@ import { SearchConfig } from 'src/api/search.model';
 })
 export class ContactsService {
 
-  contactsBackend = "/api/contacts/"
+  contactsBackend = "http://localhost:8000/api/contacts/"
 
   constructor(private http: HttpClient, private restService: RestService) { }
   

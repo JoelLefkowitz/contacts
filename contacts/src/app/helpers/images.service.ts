@@ -11,7 +11,7 @@ import { RestService } from './rest.service';
 })
 export class ImagesService {
   
-  placeholderImage = "/assets/avatar.svg"
+  placeholderImage = "./assets/avatar.svg"
   imagesBackend = "/api/contacts/images/"
   
   constructor(private http: HttpClient, private restService: RestService) { }
