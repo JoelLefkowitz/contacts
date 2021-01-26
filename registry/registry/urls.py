@@ -6,7 +6,9 @@ import debug_toolbar
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
-urlpatterns = []
+urlpatterns = [
+    path("api/contacts/", include("contacts.urls")),
+]
 
 if settings.DEBUG:
     schema_view = get_schema_view(
