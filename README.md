@@ -13,6 +13,60 @@ Angular/Electron application that models an address book.
 
 ![Architecture][architecture]
 
+## Running the app
+
+### Development
+
+Create a virtual environemnt
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+Install the server's dependencies
+
+```bash
+cd registry
+pip install .
+```
+
+Run an instance of the server
+
+```bash
+sh tools/scripts/runserver.sh
+```
+
+To serve the frontend in the browser (port 4200)
+
+```bash
+cd contacts
+npm run dev
+```
+
+To run with electron
+
+```bash
+cd contacts
+npm run electron
+```
+
+### Production
+
+```bash
+cd registry
+docker build -t joellefkowitz/registry:0.1.0
+```
+
+```bash
+cd contacts
+docker build . -t joellefkowitz/contacts:0.1.0
+```
+
+```bash
+docker stack deploy prod -c compose/docker-compose.yml
+```
+
 ### Versioning
 
 [SemVer](http://semver.org/) is used for versioning. For a list of versions available, see the tags on this repository.
