@@ -7,13 +7,14 @@ import { Observable } from 'rxjs';
 import { Paginated } from 'src/api/paginator.model';
 import { RestService } from './rest.service';
 import { SearchConfig } from 'src/api/search.model';
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
 
-  contactsBackend = "http://localhost:8000/api/contacts/"
+  contactsBackend = environment.apiHost.concat("api/contacts/")
 
   constructor(private http: HttpClient, private restService: RestService) { }
   
