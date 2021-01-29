@@ -10,6 +10,7 @@ from jsonfield import JSONField
 
 
 class Image(Model):
+    name = CharField(max_length=50)
     image = ImageField(upload_to="images/%Y/%m/%d")
 
 

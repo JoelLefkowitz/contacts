@@ -3,15 +3,18 @@ from rest_framework.serializers import (
     JSONField,
     ModelSerializer,
     PrimaryKeyRelatedField,
+    ImageField
 )
 
 from .models import Contact, Image
 
 
 class ImageSerializer(ModelSerializer):
+    image = ImageField()
+
     class Meta:
         model = Image
-        fields = ["id", "image"]
+        fields = ["id", "name", "image"]
 
 
 class ContactSerializer(ModelSerializer):

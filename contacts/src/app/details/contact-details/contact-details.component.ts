@@ -1,8 +1,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, Subscription, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { Contact } from 'src/api/contact.model';
 import { ContactsService } from 'src/app/helpers/contacts.service';
@@ -19,17 +19,15 @@ import { UpdateDetailsDialogComponent } from "../update-details-dialog/update-de
 export class ContactDetailsComponent implements OnInit, OnDestroy {
 
   contact: Contact;
-  contactId: number;
+  iconUrl: string;
   
   newPhoto = new FormControl();
-  
+   
   contactDetails = new FormGroup(
     {newNote: new FormControl()}
   )
   
-  imageSubscription: Subscription
-  contactSubscription: Subscription
-  dialogSubscription: Subscription
+  subscriptions: Subscription[] = [];
   
   constructor(
     private router: Router, 
@@ -42,41 +40,43 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
   // The contact model in the parent component might be dirty.
   // Retrieve a fresh instance rather than copying it over.
   ngOnInit(): void {
-    this.contactId = parseInt(this.route.snapshot.paramMap.get("id"), 10)
-    this.fetchContact()
-  }
+    this.subscriptions.unshift(
+      this.contactsService.retrieveContact(
+      parseInt(this.route.snapshot.paramMap.get("id"), 10)
+      ).pipe(
+        tap((contact: Contact) => this.contact = contact),
+        switchMap((contact: Contact) => this.contact.icon ? this.imagesService.imageUrl(this.contact.icon) : this.imagesService.placeholderUrl()),
+        map((iconUrl: string) => this.iconUrl = iconUrl
+    ))
+      .subscribe(x => console.log(x))
+    )
+  }  
 
-  fetchContact(): void {
-    this.contactSubscription = this.contactsService.retrieveContact(this.contactId).subscribe((contact:Contact) => this.contact = contact)
-  }
-
-  iconUrl(iconId: number): string {
-    return iconId ? this.imagesService.imageUrl(iconId) : this.imagesService.placeholderImage
-  }
-  
-  photoUrl(photoId: number){
-    return this.imagesService.imageUrl(photoId)
-  }
-  
   updateBasicDetails(): void {
     const dialogRef = this.dialog.open(UpdateDetailsDialogComponent, {
       data: { 
         firstName: this.contact.firstName,
-        lastName: this.contact.lastName,
-
+        lastName: this.contact.lastName
       },
     });
-  this.dialogSubscription = dialogRef.afterClosed().pipe(
-    tap(
-      (result) => {
-        this.contact.firstName = result.firstName;
-        this.contact.lastName = result.lastName;
-      }),
-    switchMap(
-      (result) => result.newIcon ? this.imagesService.uploadImage(result.newPhoto) : of(null)
-    )
-  )
-  .subscribe((newIconId: number | null) => {this.contact.icon = newIconId; this.updateContact()});
+
+    const updateName = (result) => {
+      this.contact.firstName = result.firstName;
+      this.contact.lastName = result.lastName;
+    }
+
+    const updateIcon = (result) => result.newIcon ? this.imagesService.uploadImage(result.newIcon) : of(null)
+
+    const onUpload = (icon: Image) => { 
+      this.contact.icon = icon.id;
+      this.updateContact();
+    }
+
+    this.subscriptions.unshift(
+      dialogRef.afterClosed().pipe(
+      tap(updateName),
+      switchMap(updateIcon)
+    ).subscribe(onUpload))
   }
   
   deleteNote(index: number): void {
@@ -86,25 +86,20 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
 
   addNote(): void {
     if (this.contactDetails.value.newNote) {
-      if (this.contact.notes){
-        this.contact.notes.unshift(this.contactDetails.value.newNote)
-      }
-      else {
-        this.contact.notes = [this.contactDetails.value.newNote]
-      }
+      this.contact.notes = this.contact.notes ? this.contact.notes : []
+      this.contact.notes.unshift(this.contactDetails.value.newNote)
       this.updateContact();
     }
   }
   
   addPhoto(): void {
     if (this.newPhoto.value) {
-      this.imageSubscription = this.imagesService.uploadImage(this.newPhoto.value)
-      .subscribe(
-        (photo: Image) => {
-          this.contact.photos.unshift(photo.id);
-          this.updateContact()
-        }
-      )
+      const imagePayload = {name: "null", image: this.newPhoto.value}
+      const onUpload = (photo: Image) => { 
+        this.contact.photos.unshift(photo.id);
+        this.updateContact();
+      }
+      this.subscriptions.unshift(this.imagesService.uploadImage(imagePayload).subscribe(onUpload))
     }
   }
   
@@ -114,17 +109,19 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
   }
   
   updateContact(): void {
-    this.contactSubscription = this.contactsService.updateContact(this.contact).subscribe();
+    this.subscriptions.unshift(this.contactsService.updateContact(this.contact).subscribe())
   }
   
   deleteContact(): void {
-    this.contactSubscription = this.contactsService.deleteContact(this.contactId).subscribe();
+    this.subscriptions.unshift(this.contactsService.deleteContact(this.contact.id).subscribe())
     this.router.navigateByUrl("/")
   }
   
   ngOnDestroy(): void {
-    if(this.imageSubscription){this.imageSubscription.unsubscribe()}
-    if(this.contactSubscription){this.contactSubscription.unsubscribe()}
-    if(this.dialogSubscription){this.dialogSubscription.unsubscribe()}
+    for (let subscription of this.subscriptions) {
+      if(subscription) {
+        subscription.unsubscribe();
+      }
+    }
   }
 }

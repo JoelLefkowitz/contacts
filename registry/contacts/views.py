@@ -9,7 +9,7 @@ from .serializers import ContactSerializer, ImageSerializer
 class ImagesViewSet(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-
+    
 
 class ContactsViewSet(ModelViewSet):
     queryset = Contact.objects.all()

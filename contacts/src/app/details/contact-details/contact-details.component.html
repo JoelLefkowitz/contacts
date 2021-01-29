@@ -7,7 +7,7 @@
     </mat-card-header>
 
     <mat-card-content> 
-        <img class="details-card-icon" [src]="iconUrl(contact.icon)" />
+        <img class="details-card-icon" [src]="iconUrl" />
         <mat-list>
             <mat-list-item>Phone number: {{contact.phoneNumber}}</mat-list-item>
             <button (click)=updateBasicDetails() class="action-button" mat-flat-button color="primary">Update details</button>
@@ -31,7 +31,7 @@
                 <button mat-icon-button (click)="deletePhoto(i)">
                     <mat-icon>delete</mat-icon>
                 </button>    
-                <img class="photo" [src]="photoUrl(id)" />
+                <img class="photo" [src]="" />
             </div>
 
             <mat-form-field appearance="outline">
@@ -39,6 +39,7 @@
                 </ngx-mat-file-input>
                 <mat-hint>Add photo</mat-hint>
             </mat-form-field>
+
             <button type="button" class="field-submit" color="primary" mat-flat-button (click)="addPhoto()">Submit</button>
         </mat-list>
     </mat-card-content>

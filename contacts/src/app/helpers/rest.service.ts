@@ -22,11 +22,10 @@ export class RestService {
         console.error('An error occurred:', error.error.message);
       } else {
         console.error(
-          `Returned code ${error.status}, ` +
-          `Body: ${error.error}`);
+          `Error code ${error.status}:\n${error.message}\nBody: ${JSON.stringify(error.error)}`);
       }
       return throwError(
-        'Cannot access backend resources, please try again later'
+        'Services encountered an HTTP error. Please try again later.'
         );
     }
 

@@ -4,12 +4,15 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("api/contacts/", include("contacts.urls")),
 ]
 
 if settings.DEBUG:
+    urlpatterns += [*static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)]
+
     schema_view = get_schema_view(
         openapi.Info("", ""),
         public=True,

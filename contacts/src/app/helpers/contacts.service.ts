@@ -1,12 +1,12 @@
 import { Contact, ContactPayload } from 'src/api/contact.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, tap, } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Paginated } from 'src/api/paginator.model';
 import { RestService } from './rest.service';
 import { SearchConfig } from 'src/api/search.model';
+import { catchError, } from 'rxjs/operators';
 import { environment } from "src/environments/environment";
 
 @Injectable({
