@@ -1,43 +1,40 @@
+import { Component, Inject, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Contact } from "src/api/contact.model";
 import {
-  Component,
-  Inject,
-  OnInit,
-} from "@angular/core";
-import { FormControl } from "@angular/forms";
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
+    MatDialogRef,
+    MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
+import { ContactCardComponent } from "../../home/contact-card/contact-card.component";
 
 @Component({
-  selector: 'app-update-details-dialog',
-  templateUrl: './update-details-dialog.component.html',
-  styleUrls: ['./update-details-dialog.component.scss']
+    selector: "app-update-details-dialog",
+    templateUrl: "./update-details-dialog.component.html",
+    styleUrls: ["./update-details-dialog.component.scss"],
 })
 export class UpdateDetailsDialogComponent implements OnInit {
+  contactBasicDetails = new FormGroup({
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+    icon: new FormControl()
+  });  
 
-  firstName = new FormControl();
-  lastName = new FormControl();
-  newIcon = new FormControl();
+    constructor(
+        private dialogRef: MatDialogRef<UpdateDetailsDialogComponent>,
+        @Inject(MAT_DIALOG_DATA)
+        public data: {
+            contact: Contact;
+        }
+    ) {
+        this.contactBasicDetails.value.firstName.setValue(data.contact.firstName);
+        this.contactBasicDetails.value.lastName.setValue(data.contact.lastName);
+    }
 
-  constructor(
-      private dialogRef: MatDialogRef<UpdateDetailsDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: {
-         firstName: string,
-         lastName: string,
-         newIcon: File | null
-       }
-  ) {
-      this.firstName.setValue(data.firstName);
-      this.lastName.setValue(data.lastName);
-  }
+    ngOnInit(): void {}
 
-  ngOnInit(): void {}
-
-  onSubmit(): void {
-    this.data.firstName = this.firstName.value,
-    this.data.lastName = this.lastName.value,
-    this.data.newIcon = this.newIcon.value ? this.newIcon.value : null
-    this.dialogRef.close(this.data);
-  }
+    onSubmit(): void {
+        this.data.contact.firstName = this.contactBasicDetails.value.firstName.value
+        this.data.contact.lastName = this.contactBasicDetails.value.lastName.value
+        this.dialogRef.close(this.data);
+    }
 }

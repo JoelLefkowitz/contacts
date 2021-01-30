@@ -1,15 +1,16 @@
+<form id="update-basic-contact-details" [formGroup]="contactBasicDetails">
 <div class="dialog-container">
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>First name</mat-label>
-        <input matInput [formControl]="firstName">
+        <input matInput formControlName="firstName">
     </mat-form-field>
     <mat-form-field class="form-field" appearance="outline">
         <mat-label>Last name</mat-label>
-        <input matInput [formControl]="lastName">
+        <input matInput formControlName="lastName">
     </mat-form-field>
     <p>Update contact icon:</p>
     <mat-form-field class="form-field" appearance="outline">
-        <ngx-mat-file-input [formControl]="newIcon">
+        <ngx-mat-file-input formControlName="icon">
         </ngx-mat-file-input>
     </mat-form-field>
     <button (click)=onSubmit() class="submit-button" mat-flat-button color="primary">Submit</button>
