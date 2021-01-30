@@ -15,16 +15,13 @@ export class ImagesService {
   imagesBackend = environment.apiHost.concat("api/contacts/images/")
 
   constructor(private http: HttpClient, private restService: RestService) { }
-
-
-  imageUrl(imageId: number): Observable<string> {
-    return this.retrieveImage(imageId).pipe(
-        map(x => x.image),
-      )
-  }
   
-  placeholderUrl(): Observable<string> {
-    return of("assets/avatar.svg")
+  getPlaceholder(): Image {
+    return {
+        id: 0,
+        name: "placeholder",
+        image: environment.apiHost.concat("assets/avatar.svg")
+      }
   }
 
   retrieveImage(imageId: number): Observable<Image> {

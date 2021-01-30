@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
 
 import { Contact } from "src/api/contact.model";
 import { ImagesService } from "src/app/helpers/images.service"
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contact-card',
@@ -16,8 +14,10 @@ export class ContactCardComponent implements OnInit {
   constructor(private imagesService: ImagesService) { }
 
   ngOnInit(): void {}
-
-  iconUrl(iconId: number): Observable<string> {
-    return iconId ? this.imagesService.imageUrl(iconId) : this.imagesService.placeholderUrl()
-  } 
+  
+  get icon(): string {
+    return this.contact.icon
+    ? this.contact.icon.image
+    : this.imagesService.getPlaceholder().image
+  }
 }

@@ -1,13 +1,20 @@
+import {Image, ImagePayload} from "./image.model";
 export interface Contact {
     id: number;
     firstName: string;
     lastName: string;
-    icon: number | null;
-    photos: number[];
+    icon: Image | null;
+    photos: Image[];
     phoneNumber: string | null;
     notes: string[];
 }
 
-export type ContactPayload = Omit<Contact, "id" >;
 
-
+export interface ContactPayload {
+    firstName: string;
+    lastName: string;
+    icon: ImagePayload | null;
+    photos: ImagePayload[];
+    phoneNumber: string | null;
+    notes: string[];
+}

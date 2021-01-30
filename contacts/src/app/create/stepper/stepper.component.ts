@@ -34,11 +34,6 @@ export class StepperComponent implements OnInit, OnDestroy {
   
   onSubmit(): void {
     const details = this.contactDetails.value;
-    
-    const imageUpload = this.icon.value
-    ? this.imagesService.uploadImage(this.icon.value)
-      .pipe(map((image: Image) => image.id))
-    : of(null)
 
     this.submssionSubscription = imageUpload
     .pipe(
@@ -46,7 +41,7 @@ export class StepperComponent implements OnInit, OnDestroy {
           this.contactsService.createContact({
           firstName: details.firstName,
           lastName: details.lastName,
-          icon: imageId,
+          icon: this.icon.value,
           photos: [],
           phoneNumber: details.phoneNumber,
           notes: []

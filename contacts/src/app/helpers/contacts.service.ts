@@ -36,9 +36,9 @@ export class ContactsService {
     )
   }
 
-  retrieveContact(contactId: number): Observable<Contact> {
+  retrieveContact(id: number): Observable<Contact> {
     return this.http.get<Contact>(
-      this.contactsBackend.concat(contactId.toString(), "/"),
+      this.contactsBackend.concat(id.toString(), "/"),
       this.restService.defaultHeaders()
     ).pipe(
       catchError(this.restService.handleError)
@@ -55,22 +55,23 @@ export class ContactsService {
       )
     }
   
-  updateContact(payload: Contact): Observable<Contact> {
+  updateContact(contact: Contact): Observable<Contact> {
     return this.http.put<Contact>(
-      this.contactsBackend.concat(payload.id.toString(), "/"),
-      payload, 
+      this.contactsBackend.concat(contact.id.toString(), "/"),
+      contact,
       this.restService.defaultHeaders()
     ).pipe(
       catchError(this.restService.handleError)
       )
     }
  
-  deleteContact(contactId: number): Observable<Contact> {
+  deleteContact(id: number): Observable<Contact> {
     return this.http.delete<Contact>(
-      this.contactsBackend.concat(contactId.toString(), "/"),
+      this.contactsBackend.concat(id.toString(), "/"),
       this.restService.defaultHeaders()
     ).pipe(
       catchError(this.restService.handleError)
       )
     }
 }
+

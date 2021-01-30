@@ -17,14 +17,13 @@ import { UpdateDetailsDialogComponent } from "../update-details-dialog/update-de
   styleUrls: ['./contact-details.component.scss']
 })
 export class ContactDetailsComponent implements OnInit, OnDestroy {
-
   contact: Contact;
-  iconUrl: string;
   
-  newPhoto = new FormControl();
-   
-  contactDetails = new FormGroup(
-    {newNote: new FormControl()}
+  inputs = new FormGroup(
+    {
+      note: new FormControl(),
+      photo: new FormControl()
+    }
   )
   
   subscriptions: Subscription[] = [];
@@ -40,17 +39,19 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
   // The contact model in the parent component might be dirty.
   // Retrieve a fresh instance rather than copying it over.
   ngOnInit(): void {
-    this.subscriptions.unshift(
-      this.contactsService.retrieveContact(
-      parseInt(this.route.snapshot.paramMap.get("id"), 10)
-      ).pipe(
-        tap((contact: Contact) => this.contact = contact),
-        switchMap((contact: Contact) => this.contact.icon ? this.imagesService.imageUrl(this.contact.icon) : this.imagesService.placeholderUrl()),
-        map((iconUrl: string) => this.iconUrl = iconUrl
-    ))
-      .subscribe(x => console.log(x))
+    this.subscriptions.unshift(this.contactsService.retrieveContact(parseInt(this.route.snapshot.paramMap.get("id"), 10)).subscribe()
     )
   }  
+
+  get icon(): string {
+    return this.contact.icon
+    ? this.contact.icon.image
+    : this.imagesService.getPlaceholder().image
+  }
+  
+  get photos(): string[] {
+    return this.contact.photos.map(photo => photo.image)
+  }
 
   updateBasicDetails(): void {
     const dialogRef = this.dialog.open(UpdateDetailsDialogComponent, {
@@ -68,7 +69,7 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
     const updateIcon = (result) => result.newIcon ? this.imagesService.uploadImage(result.newIcon) : of(null)
 
     const onUpload = (icon: Image) => { 
-      this.contact.icon = icon.id;
+      this.contact.icon = icon;
       this.updateContact();
     }
 
@@ -96,7 +97,6 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
     if (this.newPhoto.value) {
       const imagePayload = {name: "null", image: this.newPhoto.value}
       const onUpload = (photo: Image) => { 
-        this.contact.photos.unshift(photo.id);
         this.updateContact();
       }
       this.subscriptions.unshift(this.imagesService.uploadImage(imagePayload).subscribe(onUpload))
