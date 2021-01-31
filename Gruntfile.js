@@ -23,7 +23,6 @@ module.exports = function (grunt) {
         "pylint",
         "bandit",
     ]);
-
     grunt.registerTask("format", [
         "prettier",
         "csscomb",
@@ -32,17 +31,6 @@ module.exports = function (grunt) {
         "autoflake",
         "isort",
     ]);
-    
-
-    grunt.registerTask("unitTests", [])
-    grunt.registerTask("integrationTests", [])
-    grunt.registerTask("e2eTests", [])
-    
-    grunt.registerTask("tests", [
-        "unitTests",
-        "integrationTests",
-        "e2eTests"
-    ]);
-    
+    grunt.registerTask("tests", [ "unitTests", "integrationTests", "e2eTests"]);
     grunt.registerTask("prebuild", ["format", "lint", "tests"]);
 };
