@@ -1,12 +1,13 @@
-<form id="create-contact" [formGroup]="contactDetails">
-    <mat-vertical-stepper linear #stepper>
+<div class="stepper-container" fxLayout="column" fxLayoutAlign="start center">
+    <mat-vertical-stepper #stepper>
+            <form id="contact-details" [formGroup]="contactDetails">
         <mat-step stepControl="firstName">
             <ng-template matStepLabel>First name</ng-template>
             <mat-form-field>
                 <mat-label>First name</mat-label>
                 <input matInput formControlName="firstName" required>
             </mat-form-field>
-            <button mat-button matStepperNext>Next</button>
+            
         </mat-step>
         <mat-step stepControl="lastName">
             <ng-template matStepLabel>Last name</ng-template>
@@ -14,7 +15,7 @@
                 <mat-label>Last name</mat-label>
                 <input matInput formControlName="lastName" required>
             </mat-form-field>
-            <button mat-button matStepperNext>Next</button>
+            
         </mat-step>
         <mat-step stepControl="phoneNumber">
             <ng-template matStepLabel>Phone number</ng-template>
@@ -22,18 +23,73 @@
                 <mat-label>Phone number</mat-label>
                 <input matInput formControlName="phoneNumber" optional>
             </mat-form-field>
-            <button mat-button matStepperNext>Next</button>
+            
         </mat-step>
+        </form>
+        <form id="raw-inputs" [formGroup]="rawInputs">
+        
         <mat-step stepControl="icon">
             <ng-template matStepLabel>Icon</ng-template>
+            <div *ngIf="currentIcon">
+                    <button
+                        mat-icon-button
+                        (click)="removeIcon()"
+                    >
+                        <mat-icon>remove</mat-icon>
+                    </button>
+                    {{currentIcon.name}}
+            </div>
             <mat-form-field>
-                <ngx-mat-file-input formControlName="icon"
+                <ngx-mat-file-input formControlName="iconUpload"
                     accept="image/png, image/jpeg" optional>
                 </ngx-mat-file-input>
             </mat-form-field>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-button (click)="setIcon()">{{currentIcon ? 'Replace' : 'Add'}}</button>
         </mat-step>
-    </mat-vertical-stepper>
+        
+        <mat-step stepControl="notes">
+            <ng-template matStepLabel>Notes</ng-template>
+            <mat-list>
+                <mat-list-item *ngFor=" let note of currentNotes">
+                    <button
+                        mat-icon-button
+                        (click)="popNote(note)"
+                    >
+                        <mat-icon>remove</mat-icon>
+                    </button>
+                    {{note}}
+                </mat-list-item>
+            </mat-list>
+            <mat-form-field>
+                <mat-label>Notes</mat-label>
+                <input matInput formControlName="notesInput" #notesInput optional>
+            </mat-form-field>
+            <button mat-button (click)="pushNote(); notesInput.value=''">Add</button>
+            
+        </mat-step>
+        <mat-step stepControl="photos">
+            <ng-template matStepLabel>Photos</ng-template>
+            <mat-list>
+                <mat-list-item *ngFor=" let photo of currentPhotos">
+                    <button
+                        mat-icon-button
+                        (click)="popPhoto(photo)"
+                    >
+                        <mat-icon>remove</mat-icon>
+                    </button>
+                    {{photo.name}}
+                </mat-list-item>
+            </mat-list>
+            <mat-form-field>
+                <ngx-mat-file-input formControlName="photosUpload"
+                    accept="image/png, image/jpeg" optional multiple>
+                </ngx-mat-file-input>
+            </mat-form-field>
+            <button mat-button (click)="pushPhotos()">Add</button>
+        </mat-step>
+    </form>
+</mat-vertical-stepper>
+
     <button
             mat-flat-button
             type="submit"
@@ -41,10 +97,10 @@
             (click)="onSubmit()"
             [disabled]="!contactDetails.valid"
             color="primary"
-            class="submit-button"
+            class="wide-button"
         >
             Submit
     </button>
-</form>
+</div>
 
 <app-fab routerLink="" class="fab" aria-label="Go back" icon="home"></app-fab>

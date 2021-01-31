@@ -1,11 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Subscription, of } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
 
 import { ContactsService } from "src/app/helpers/contacts.service";
-import { Image } from "src/api/image.model";
-import { ImagesService } from "src/app/helpers/images.service";
 import { Router } from "@angular/router";
 
 @Component({
@@ -15,13 +12,20 @@ import { Router } from "@angular/router";
 })
 export class StepperComponent implements OnInit, OnDestroy {
     contactDetails = new FormGroup({
-        firstName: new FormControl(),
-        lastName: new FormControl(),
-        phoneNumber: new FormControl(),
-        icon: new FormControl(),
-        photos: new FormControl(),
+        firstName: new FormControl(""),
+        lastName: new FormControl(""),
+        phoneNumber: new FormControl("", Validators.pattern('[- +()0-9]+')),
+        icon: new FormControl(null),
+        notes: new FormControl([]),
+        photos: new FormControl([]),
     });
-
+    
+    rawInputs = new FormGroup({
+        iconUpload: new FormControl(null),
+        notesInput: new FormControl(""),
+        photosUpload: new FormControl([])
+    })
+        
     submssionSubscription: Subscription;
 
     constructor(
@@ -31,17 +35,56 @@ export class StepperComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {}
 
-    onSubmit(): void {
-        const details = this.contactDetails.value;
-        this.submssionSubscription = this.contactsService
-            .createContact({
-                firstName: details.firstName,
-                lastName: details.lastName,
-                icon: null,
-                photos: [],
-                phoneNumber: details.phoneNumber,
-                notes: [],
+    get currentIcon() {
+        return this.contactDetails.value.icon
+    }
+    
+    get currentNotes() {
+        return this.contactDetails.value.notes
+    }
+    
+    get currentPhotos() {
+        return this.contactDetails.value.photos
+    }
+    
+    setIcon() {
+        const iconUpload = this.rawInputs.value.iconUpload
+        this.contactDetails.value.icon = {
+            name: iconUpload.name,
+            image: iconUpload
+        }
+    }
+    
+    pushNote(): void {
+        this.contactDetails.value.notes.push(this.rawInputs.value.notesInput)
+    }
+    
+    pushPhotos(){
+        const images = this.rawInputs.value.photosUpload.map(
+            photoUpload => ({
+                name: photoUpload.name,
+                image: photoUpload
             })
+        )
+        this.contactDetails.value.photos.push(...images)
+    }
+    
+    removeIcon(): void {
+        this.contactDetails.value.icon = null
+    }
+    
+    popNote(note: string): void {
+        this.contactDetails.value.notes = this.contactDetails.value.notes.filter(x => x != note)
+    }
+    
+    popPhoto(photo) : void {
+        this.contactDetails.value.photos = this.contactDetails.value.photos.filter(x => x.image != photo.image)
+    }
+
+    onSubmit(): void {
+        console.log(this.contactDetails.value)
+        this.submssionSubscription = this.contactsService
+            .createContact(this.contactDetails.value)
             .subscribe();
         this.router.navigateByUrl("/");
     }

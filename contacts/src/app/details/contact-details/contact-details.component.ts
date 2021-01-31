@@ -53,7 +53,7 @@ export class ContactDetailsComponent
             { data: this.contact }
         );
 
-        this.subscriptions.unshift(
+        this.subscriptions.push(
             dialogRef
                 .afterClosed()
                 .subscribe((_) => this.updateContact())
@@ -75,7 +75,7 @@ export class ContactDetailsComponent
     }
 
     fetchContact(id: number): void {
-        this.subscriptions.unshift(
+        this.subscriptions.push(
             this.contactsService
                 .retrieveContact(id)
                 .subscribe(
@@ -86,7 +86,7 @@ export class ContactDetailsComponent
     }
 
     updateContact(): void {
-        this.subscriptions.unshift(
+        this.subscriptions.push(
             this.contactsService
                 .updateContact(this.contact)
                 .subscribe()
@@ -94,7 +94,7 @@ export class ContactDetailsComponent
     }
 
     deleteContact(): void {
-        this.subscriptions.unshift(
+        this.subscriptions.push(
             this.contactsService
                 .deleteContact(this.contact.id)
                 .subscribe()
