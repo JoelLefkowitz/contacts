@@ -7,20 +7,21 @@ import { Contact } from "src/api/contact.model";
 import { ContactsService } from "src/app/helpers/contacts.service";
 import { ImagesService } from "src/app/helpers/images.service";
 import { MatDialog } from "@angular/material/dialog";
-import { UpdateDetailsDialogComponent } from "../update-details-dialog/update-details-dialog.component";
+import { UpdateNameDialogComponent } from "../update-name-dialog/update-name-dialog.component";
+import { UpdatePhoneNumberDialogComponent } from "../update-phone-number-dialog/update-phone-number-dialog.component";
 
 @Component({
     selector: "app-contact-details",
     templateUrl: "./contact-details.component.html",
     styleUrls: ["./contact-details.component.scss"],
 })
-export class ContactDetailsComponent
-    implements OnInit, OnDestroy {
+export class ContactDetailsComponent implements OnInit, OnDestroy {
     contact: Contact;
+    editMode = false;
 
-    contactDetails = new FormGroup({
-        note: new FormControl(),
-        photo: new FormControl(),
+    rawInputs = new FormGroup({
+        noteInput: new FormControl(""),
+        photosUpload: new FormControl([]),
     });
 
     subscriptions: Subscription[] = [];
@@ -39,39 +40,78 @@ export class ContactDetailsComponent
         this.fetchContact(
             parseInt(this.route.snapshot.paramMap.get("id"), 10)
         );
-    }
-
+    }    
+    
     get icon(): string {
         return this.contact.icon
             ? this.contact.icon.image
             : this.imagesService.getPlaceholder().image;
     }
 
-    updateBasicDetails(): void {
+    toggleEditMode() {
+        this.editMode = !this.editMode
+    }
+    
+    updateName(): void {
         const dialogRef = this.dialog.open(
-            UpdateDetailsDialogComponent,
-            { data: this.contact }
+            UpdateNameDialogComponent, {
+            data: {
+                firstName: this.contact.firstName,
+                lastName: this.contact.lastName
+                }
+            }
         );
 
         this.subscriptions.push(
             dialogRef
                 .afterClosed()
-                .subscribe((_) => this.updateContact())
+                .subscribe((data) => {
+                    if (data && data.firstName) {this.contact.firstName = data.firstName}
+                    if (data && data.lastName) {this.contact.lastName = data.lastName}
+                })
         );
     }
 
-    addNote(): void {}
+    updatePhoneNumber(): void {
+        const dialogRef = this.dialog.open(
+            UpdatePhoneNumberDialogComponent, {
+            data: {
+                phoneNumber: this.contact.phoneNumber
+                }
+            }
+        );
 
-    addPhoto(): void {}
-
-    deleteNote(index: number): void {
-        this.contact.notes.splice(index, 1);
-        this.updateContact();
+        this.subscriptions.push(
+            dialogRef
+                .afterClosed()
+                .subscribe((data) => {
+                    if (data && data.phoneNumber) {this.contact.phoneNumber = data.phoneNumber}
+                })
+        );
     }
 
-    deletePhoto(id: number): void {
+    setIcon(): void { 
+        
+    }
+    
+    pushNote(): void { 
+        this.contact.notes.push(this.rawInputs.value.noteInput);
+    }
+
+    pushPhoto(): void {
+        
+    }
+
+    removeIcon(): void { 
+        this.contact.icon = null;
+    }
+    
+    popNote(note: string): void {
+        this.contact.notes = this.contact.notes.filter(x => x != note);
+    }
+
+    popPhoto(id: number): void {
         this.contact.photos.filter(x => x.id != id);
-        this.updateContact();
     }
 
     fetchContact(id: number): void {

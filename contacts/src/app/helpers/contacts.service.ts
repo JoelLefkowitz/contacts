@@ -1,8 +1,9 @@
 import { Contact, ContactPayload } from 'src/api/contact.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { mockContact, mockPaginatedContacts } from 'src/api/mocks';
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Paginated } from 'src/api/paginator.model';
 import { RestService } from './rest.service';
 import { SearchConfig } from 'src/api/search.model';
@@ -19,6 +20,8 @@ export class ContactsService {
   constructor(private http: HttpClient, private restService: RestService) { }
   
   searchContacts(searchInput: string, searchConfig: SearchConfig, limit?: number, offset?: number): Observable<Paginated<Contact>> {
+    return of(mockPaginatedContacts);
+    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -37,6 +40,8 @@ export class ContactsService {
   }
 
   retrieveContact(id: number): Observable<Contact> {
+    return of(mockContact);
+    
     return this.http.get<Contact>(
       this.contactsBackend.concat(id.toString(), "/"),
       this.restService.defaultHeaders()

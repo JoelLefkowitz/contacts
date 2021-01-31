@@ -5,10 +5,12 @@ import { NgModule } from '@angular/core';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { UpdateDetailsDialogComponent } from './update-details-dialog/update-details-dialog.component';
+import { UpdateNameDialogComponent } from './update-name-dialog/update-name-dialog.component';
+import { UpdatePhoneNumberDialogComponent } from './update-phone-number-dialog/update-phone-number-dialog.component';
+import { UpdateIconDialogComponent } from './update-icon-dialog/update-icon-dialog.component';
 
 @NgModule({
-  declarations: [UpdateDetailsDialogComponent, ContactDetailsComponent],
+  declarations: [ContactDetailsComponent, UpdateNameDialogComponent, UpdatePhoneNumberDialogComponent, UpdateIconDialogComponent],
   imports: [
     CommonModule, DetailsRoutingModule, SharedModule, NgxMatFileInputModule, ReactiveFormsModule
    ]

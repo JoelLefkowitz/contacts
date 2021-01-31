@@ -6,8 +6,8 @@
 }
 
 .details-card-icon {
-    max-width: 10%;
-    margin: -10px 10px 10px auto;
+    max-width: max(15%, 100px);
+    margin: 0px 20px 10px auto;
 }
 
 .list-data {
@@ -18,6 +18,15 @@
 .field-submit {
     margin-left: 10px;
     bottom: 5px;
+}
+
+.phone-number {
+    margin: 10px 20px;
+}
+
+.edit-icon {
+    position: absolute;
+    margin-left: -20px
 }
 
 .photo {

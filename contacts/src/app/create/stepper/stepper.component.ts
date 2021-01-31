@@ -49,14 +49,18 @@ export class StepperComponent implements OnInit, OnDestroy {
     
     setIcon() {
         const iconUpload = this.rawInputs.value.iconUpload
-        this.contactDetails.value.icon = {
-            name: iconUpload.name,
-            image: iconUpload
-        }
+        this.contactDetails.setValue({
+            icon:{
+                name: iconUpload.name,
+                image: iconUpload
+            }
+        })
     }
     
     pushNote(): void {
-        this.contactDetails.value.notes.push(this.rawInputs.value.notesInput)
+        this.contactDetails.setValue({
+            notes: this.contactDetails.value.notes.concat([this.rawInputs.value.notesInput])
+        })
     }
     
     pushPhotos(){
@@ -66,23 +70,28 @@ export class StepperComponent implements OnInit, OnDestroy {
                 image: photoUpload
             })
         )
-        this.contactDetails.value.photos.push(...images)
+        this.contactDetails.setValue({
+            photos: this.contactDetails.value.photos.concat(images)
+        })
     }
     
     removeIcon(): void {
-        this.contactDetails.value.icon = null
+        this.contactDetails.setValue({icon: null})
     }
     
     popNote(note: string): void {
-        this.contactDetails.value.notes = this.contactDetails.value.notes.filter(x => x != note)
+        this.contactDetails.setValue(
+            {notes: this.contactDetails.value.notes.filter(x => x != note)}
+        )
     }
     
     popPhoto(photo) : void {
-        this.contactDetails.value.photos = this.contactDetails.value.photos.filter(x => x.image != photo.image)
+        this.contactDetails.setValue(
+            {photos: this.contactDetails.value.photos.filter(x => x.image != photo.image)}
+        )
     }
 
     onSubmit(): void {
-        console.log(this.contactDetails.value)
         this.submssionSubscription = this.contactsService
             .createContact(this.contactDetails.value)
             .subscribe();

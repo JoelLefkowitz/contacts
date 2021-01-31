@@ -11,7 +11,7 @@
     <app-fab (click)="drawer.toggle()" class="fab" icon="reorder" aria-label="Search config"></app-fab>
 
     <ng-container *ngIf="searchResults | async as searchResults">
-        <div fxLayout="row wrap" fxLayoutAlign="center" class="results-container">
+        <div fxLayout="row wrap" fxLayoutAlign="center start" class="results-container">
             <app-contact-card *ngFor="let contact of searchResults.results" [contact]="contact"></app-contact-card>
         </div>
         

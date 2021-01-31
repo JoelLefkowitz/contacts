@@ -62,9 +62,9 @@
             </mat-list>
             <mat-form-field>
                 <mat-label>Notes</mat-label>
-                <input matInput formControlName="notesInput" #notesInput optional>
+                <input matInput formControlName="notesInput" optional>
             </mat-form-field>
-            <button mat-button (click)="pushNote(); notesInput.value=''">Add</button>
+            <button mat-button (click)="pushNote()">Add</button>
             
         </mat-step>
         <mat-step stepControl="photos">

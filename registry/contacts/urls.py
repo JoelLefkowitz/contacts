@@ -11,5 +11,5 @@ urlpatterns = [
         ),
     ),
     path("images/", ImagesViewSet.as_view({"post": "create"})),
-    path("images/<int:pk>/", ImagesViewSet.as_view({"get": "retrieve"})),
+    path("images/<int:pk>/", ImagesViewSet.as_view({"get": "retrieve", "delete": "destroy"})),
 ]
