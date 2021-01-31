@@ -1,55 +1,62 @@
 {
-  "name": "contacts",
-  "description": "Angular/Electron application that models an address book",
-  "version": "0.1.0",
-  "license": "MIT",
-  "author": "Joel Lefkowitz",
-  "homepage": "https://github.com/JoelLefkowitz/contacts#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JoelLefkowitz/contacts.git"
-  },
-  "bugs": {
-    "url": "https://github.com/JoelLefkowitz/contacts/issues"
-  },
-  "devDependencies": {
-      "grunt": "^1.3.0",
-      "grunt-cli": "^1.3.0",
-      "grunt-exec": "^3.0.0",
-      "grunt-contrib-watch": "^1.1.0",
-      "grunt-force-task": "^2.0.0",
-      "yaml": "^1.10.0"
-  },
-  "portfolio": {
-      "project_type": "Community work",
-      "languages": [
-          "Typescript",
-          "Purescript",
-          "Python"
-      ],
-      "frameworks": [
-          "Angular",
-          "Electron",
-          "Django",
-          "Terraform",
-          "Ansible",
-          "Nginx",
-          "Varnish",
-          "Express",
-          "Prometheus",
-          "Grafana",
-          "Celery",
-          "Memcached",
-          "Postgres",
-          "RabbitMQ"
-      ],
-      "paradigms": [
-          "Containerised microservices",
-          "Object oriented programming",
-          "Functional programming"
-      ],
-      "status": [
-          "In development"
-      ]
-  }
+    "name": "contacts",
+    "description": "Angular/Electron application that models an address book",
+    "version": "0.1.0",
+    "license": "MIT",
+    "author": "Joel Lefkowitz",
+    "homepage": "https://github.com/JoelLefkowitz/contacts#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JoelLefkowitz/contacts.git"
+    },
+    "bugs": {
+        "url": "https://github.com/JoelLefkowitz/contacts/issues"
+    },
+    "devDependencies": {
+        "@trivago/prettier-plugin-sort-imports": "^1.4.1",
+        "@typescript-eslint/eslint-plugin": "^4.12.0",
+        "@typescript-eslint/parser": "^4.12.0",
+        "eslint": "^7.17.0",
+        "grunt": "^1.3.0",
+        "grunt-cli": "^1.3.0",
+        "grunt-contrib-clean": "^2.0.0",
+        "grunt-contrib-watch": "^1.1.0",
+        "grunt-exec": "^3.0.0",
+        "grunt-force-task": "^2.0.0",
+        "prettier": "^2.1.2",
+        "typescript": "^4.1.3",
+        "yaml": "^1.10.0"
+    },
+    "portfolio": {
+        "project_type": "Community work",
+        "languages": [
+            "Typescript",
+            "Purescript",
+            "Python"
+        ],
+        "frameworks": [
+            "Angular",
+            "Electron",
+            "Django",
+            "Terraform",
+            "Ansible",
+            "Nginx",
+            "Varnish",
+            "Express",
+            "Prometheus",
+            "Grafana",
+            "Celery",
+            "Memcached",
+            "Postgres",
+            "RabbitMQ"
+        ],
+        "paradigms": [
+            "Containerised microservices",
+            "Object oriented programming",
+            "Functional programming"
+        ],
+        "status": [
+            "In development"
+        ]
+    }
 }
