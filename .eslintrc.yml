@@ -3,5 +3,9 @@
     "env": { "es6": true },
     "parserOptions": { "sourceType": "module" },
     "rules":
-        { "semi": "error", "no-duplicate-imports": "error" },
+        { 
+            "semi": "error",
+            "no-duplicate-imports": "error",
+            "@typescript-eslint/explicit-function-return-type": ["error"] 
+        }
 }

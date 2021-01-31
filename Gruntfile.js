@@ -1,7 +1,6 @@
 const init = require("./tools/grunt/init");
 const aliases = require("./tools/grunt/aliases");
 
-console.log(init.cleanTasks)
 module.exports = function (grunt) {
     grunt.initConfig({
             clean: init.toClean,

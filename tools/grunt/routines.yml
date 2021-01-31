@@ -1,59 +1,60 @@
 # Linters
 bandit:
     - bandit
-    - "portserver/**/*.py"
-    - "-l"
-    - "-i"
-    - "-r"
-    - "--quiet"
-    - "-c"
+    - registry/**/*.py
+    - -l
+    - -i
+    - -r
+    - --quiet
+    - -c
     - .bandit.yml
 cspell:
     - cspell
     - ./**/*
-    - "-c"
+    - -c
     - .cspell.json
 pylint:
     - pylint
-    - portserver/**/*.py
-    - "-r"
-    - "n"
-    - "--rcfile"
+    - registry/**/*.py
+    - -r
+    - n
+    - --rcfile
     - .pylintrc.conf
 eslint:
     - npx
     - eslint
-    - "-c"
+    - -c
     - .eslintrc.yml
-    - "portfolio/src/{**/,}*.ts"
+    - contacts/src/{**/,}*.ts
     - --no-error-on-unmatched-pattern
 
 # Formatters
 autoflake:
     - autoflake
-    - "portserver/**/*.py"
-    - "-ri"
-    - "--exclude"
+    - registry/**/*.py
+    - -ri
+    - --exclude
     - conftest.py
-    - "--remove-all-unused-imports"
-    - "--remove-unused-variables"
-    - "--ignore-init-module-imports"
+    - --remove-all-unused-imports
+    - --remove-unused-variables
+    - --ignore-init-module-imports
 black:
     - black
-    - portserver
+    - registry
 csscomb:
     - csscomb
-    - portfolio/src
+    - contacts/src
 isort:
     - isort
-    - portserver/*.py
+    - registry/**/*.py
 presort:
     - isort
-    - portserver/*.py
-    - "--force-single-line-imports"
+    - registry/**/*.py
+    - --force-single-line-imports
 prettier:
+    - npx
     - prettier
-    - "portfolio/{**/*,*}.{js,ts,html,scss}"
+    - contacts/{**/*,*}.{js,ts,html,scss}
     - --write
     - --loglevel
     - error
