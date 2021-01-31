@@ -1,0 +1,118 @@
+# Builders
+portfolioDev:
+  - docker
+  - build
+  - portfolio
+  - -f
+  - portfolio/dev.Dockerfile
+  - -t
+  - joellefkowitz/portfolio:0.1.0_dev
+portfolioProd:
+  - docker
+  - build
+  - portfolio
+  - -f
+  - portfolio/prod.Dockerfile
+  - -t
+  - joellefkowitz/portfolio:0.1.0_prod
+portserverDev:
+  - docker
+  - build
+  - portserver
+  - -f
+  - portserver/Dockerfile
+  - --build-arg STARTUP_SCRIPT="/portserver/startup/dev.sh"
+  - -t
+  - joellefkowitz/portserver:0.1.0_dev
+portserverProd:
+  - docker
+  - build
+  - portserver
+  - -f
+  - portserver/Dockerfile
+  - --build-arg STARTUP_SCRIPT="/portserver/startup/prod.sh"
+  - -t
+  - joellefkowitz/portserver:0.1.0_prod
+
+# Django
+runserverDev:
+  - python
+  - portserver/manage.py
+  - runserver
+celery:
+  - celery
+  - -A
+  - portserver/portserver
+  - worker
+celeryBeat:
+  - celery
+  - -A
+  - portserver/portserver
+  - beat
+  - --scheduler
+  - django_celery_beat.schedulers:DatabaseScheduler
+
+# Linters
+bandit:
+    - bandit
+    - "portserver/**/*.py"
+    - "-l"
+    - "-i"
+    - "-r"
+    - "--quiet"
+    - "-c"
+    - .bandit.yml
+cspell:
+    - cspell
+    - ./**/*
+    - "-c"
+    - .cspell.json
+pylint:
+    - pylint
+    - portserver/**/*.py
+    - "-r"
+    - "n"
+    - "--rcfile"
+    - .pylintrc.conf
+eslint:
+    - npx
+    - eslint
+    - "-c"
+    - .eslintrc.yml
+    - "portfolio/src/{**/,}*.ts"
+    - --no-error-on-unmatched-pattern
+
+# Formatters
+autoflake:
+    - autoflake
+    - "portserver/**/*.py"
+    - "-ri"
+    - "--exclude"
+    - conftest.py
+    - "--remove-all-unused-imports"
+    - "--remove-unused-variables"
+    - "--ignore-init-module-imports"
+black:
+    - black
+    - portserver
+csscomb:
+    - csscomb
+    - portfolio/src
+isort:
+    - isort
+    - portserver/*.py
+presort:
+    - isort
+    - portserver/*.py
+    - "--force-single-line-imports"
+prettier:
+    - prettier
+    - "portfolio/{**/*,*}.{js,ts,html,scss}"
+    - --write
+    - --loglevel
+    - error
+
+# tests
+pytest:
+    - pytest
+    - portserver

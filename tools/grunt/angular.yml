@@ -1,0 +1,25 @@
+serveDev:
+   - ng
+   - serve
+   - --proxy-config
+   - dev.proxy.conf.json
+buildDev:
+   - ng
+   - build
+buildProd:
+   - ng
+   - build 
+   - --prod
+unitTests:
+  - ng
+  - test
+  - --watch
+  - false
+  - --browsers
+  - ChromeHeadless
+unitTestsWatch:
+   - ng
+   - test
+e2eTests:
+   - ng
+   - e2e
