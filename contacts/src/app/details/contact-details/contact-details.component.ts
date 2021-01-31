@@ -7,6 +7,7 @@ import { Contact } from "src/api/contact.model";
 import { ContactsService } from "src/app/helpers/contacts.service";
 import { ImagesService } from "src/app/helpers/images.service";
 import { MatDialog } from "@angular/material/dialog";
+import { UpdateIconDialogComponent } from "../update-icon-dialog/update-icon-dialog.component";
 import { UpdateNameDialogComponent } from "../update-name-dialog/update-name-dialog.component";
 import { UpdatePhoneNumberDialogComponent } from "../update-phone-number-dialog/update-phone-number-dialog.component";
 
@@ -70,14 +71,13 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
                     if (data && data.lastName) {this.contact.lastName = data.lastName}
                 })
         );
-    }
+}
 
     updatePhoneNumber(): void {
         const dialogRef = this.dialog.open(
             UpdatePhoneNumberDialogComponent, {
             data: {
-                phoneNumber: this.contact.phoneNumber
-                }
+                phoneNumber: this.contact.phoneNumber}
             }
         );
 
@@ -85,13 +85,26 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
             dialogRef
                 .afterClosed()
                 .subscribe((data) => {
-                    if (data && data.phoneNumber) {this.contact.phoneNumber = data.phoneNumber}
+                    if (data && data.firstName) {this.contact.firstName = data.firstName}
+                    if (data && data.lastName) {this.contact.lastName = data.lastName}
                 })
         );
     }
 
     setIcon(): void { 
-        
+        const dialogRef = this.dialog.open(
+            UpdateIconDialogComponent, {
+            data: {imagePayload: null}
+        }
+    );
+
+        this.subscriptions.push(
+            dialogRef
+                .afterClosed()
+                .subscribe((data) => {
+                    
+                })
+        );
     }
     
     pushNote(): void { 

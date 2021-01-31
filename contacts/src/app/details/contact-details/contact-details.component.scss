@@ -1,4 +1,6 @@
 @import "~@angular/material/theming";
+$iconWidth: max(15%, 100px);
+
 .details-card {
     overflow: scroll;
     height: calc(100% - 50px);
@@ -6,7 +8,7 @@
 }
 
 .details-card-icon {
-    max-width: max(15%, 100px);
+    max-width: $iconWidth;
     margin: 0px 20px 10px auto;
 }
 
@@ -24,9 +26,14 @@
     margin: 10px 20px;
 }
 
-.edit-icon {
+.edit-icon-container {
     position: absolute;
-    margin-left: -20px
+    display: block;
+    margin-left: $iconWidth
+}
+
+.edit-icon {
+    position: relative;
 }
 
 .photo {

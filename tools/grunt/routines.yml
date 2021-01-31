@@ -1,0 +1,60 @@
+# Linters
+bandit:
+    - bandit
+    - registry/**/*.py
+    - -l
+    - -i
+    - -r
+    - --quiet
+    - -c
+    - .bandit.yml
+cspell:
+    - cspell
+    - ./**/*
+    - -c
+    - .cspell.json
+pylint:
+    - pylint
+    - registry/**/*.py
+    - -r
+    - n
+    - --rcfile
+    - .pylintrc.conf
+eslint:
+    - npx
+    - eslint
+    - -c
+    - .eslintrc.yml
+    - contacts/src/{**/,}*.ts
+    - --no-error-on-unmatched-pattern
+
+# Formatters
+autoflake:
+    - autoflake
+    - registry/**/*.py
+    - -ri
+    - --exclude
+    - conftest.py
+    - --remove-all-unused-imports
+    - --remove-unused-variables
+    - --ignore-init-module-imports
+black:
+    - black
+    - registry
+csscomb:
+    - csscomb
+    - contacts/src
+isort:
+    - isort
+    - registry/**/*.py
+presort:
+    - isort
+    - registry/**/*.py
+    - --force-single-line-imports
+prettier:
+    - npx
+    - prettier
+    - contacts/{**/*,*}.{js,ts,html,scss}
+    - --write
+    - --loglevel
+    - error

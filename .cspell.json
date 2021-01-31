@@ -3,6 +3,7 @@
     "ignorePaths": [
         "dist/**",
         "node_modules/**",
+        "venv/**",
         "package-lock.json",
         "__pycache__/**"
     ],

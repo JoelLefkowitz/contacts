@@ -1,26 +1,22 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import {
-    MAT_DIALOG_DATA,
     MatDialogRef,
+    MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
-import { UpdateNameDialogComponent } from "../update-name-dialog/update-name-dialog.component";
 
 @Component({
-  selector: 'app-update-phone-number-dialog',
-  templateUrl: './update-phone-number-dialog.component.html',
-  styleUrls: ['./update-phone-number-dialog.component.scss']
+    selector: "app-update-phone-number-dialog",
+    templateUrl: "./update-phone-number-dialog.component.html",
+    styleUrls: ["./update-phone-number-dialog.component.scss"],
 })
 export class UpdatePhoneNumberDialogComponent implements OnInit {
-
-    phoneNumber = new FormControl("", Validators.pattern('[- +()0-9]+'));
-
-    constructor(
-        private dialogRef: MatDialogRef<UpdateNameDialogComponent>,
+  phoneNumber = new FormControl();
+  
+  constructor(
+        private dialogRef: MatDialogRef<UpdatePhoneNumberDialogComponent>,
         @Inject(MAT_DIALOG_DATA)
-        public data: {
-          phoneNumber: string
-        }
+        public data: {phoneNumber: (string | null)}
     ) {
       this.phoneNumber.setValue(data.phoneNumber)
     }
@@ -28,7 +24,7 @@ export class UpdatePhoneNumberDialogComponent implements OnInit {
     ngOnInit(): void {}
 
     onSubmit(): void {
-        this.data.phoneNumber = this.phoneNumber.value
-        this.dialogRef.close(this.data);
+      this.data.phoneNumber = this.phoneNumber.value
+      this.dialogRef.close(this.data);
     }
-  }
+}

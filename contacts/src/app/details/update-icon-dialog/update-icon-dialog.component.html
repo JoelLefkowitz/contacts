@@ -1,4 +1,8 @@
-<form id="update-contact-name">
-    <div class="dialog-container">
-    </div>
-</form>
+<div class="dialog-container">
+    <mat-form-field class="form-field">
+        <ngx-mat-file-input [formControl]="iconUpload"
+            accept="image/png, image/jpeg" optional>
+        </ngx-mat-file-input>
+    </mat-form-field>
+    <button (click)=onSubmit() class="submit-button" mat-flat-button color="primary">Submit</button>
+</div>

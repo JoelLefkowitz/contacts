@@ -19,9 +19,7 @@ export class ContactsService {
 
   constructor(private http: HttpClient, private restService: RestService) { }
   
-  searchContacts(searchInput: string, searchConfig: SearchConfig, limit?: number, offset?: number): Observable<Paginated<Contact>> {
-    return of(mockPaginatedContacts);
-    
+  searchContacts(searchInput: string, searchConfig: SearchConfig, limit?: number, offset?: number): Observable<Paginated<Contact>> {    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -39,9 +37,7 @@ export class ContactsService {
     )
   }
 
-  retrieveContact(id: number): Observable<Contact> {
-    return of(mockContact);
-    
+  retrieveContact(id: number): Observable<Contact> {    
     return this.http.get<Contact>(
       this.contactsBackend.concat(id.toString(), "/"),
       this.restService.defaultHeaders()
