@@ -2,12 +2,19 @@
     <div class="dialog-container">
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>First name</mat-label>
-            <input matInput formControlName="firstName">
+            <input matInput formControlName="firstName" />
         </mat-form-field>
         <mat-form-field class="form-field" appearance="outline">
             <mat-label>Last name</mat-label>
-            <input matInput formControlName="lastName">
+            <input matInput formControlName="lastName" />
         </mat-form-field>
-        <button (click)=onSubmit() class="submit-button" mat-flat-button color="primary">Submit</button>
+        <button
+            (click)="onSubmit()"
+            class="submit-button"
+            mat-flat-button
+            color="primary"
+        >
+            Submit
+        </button>
     </div>
 </form>

@@ -5,6 +5,7 @@ import { Subscription, of } from "rxjs";
 import { ContactsService } from "src/app/helpers/contacts.service";
 import { Router } from "@angular/router";
 
+
 @Component({
     selector: "app-stepper",
     templateUrl: "./stepper.component.html",
@@ -14,7 +15,7 @@ export class StepperComponent implements OnInit, OnDestroy {
     contactDetails = new FormGroup({
         firstName: new FormControl(""),
         lastName: new FormControl(""),
-        phoneNumber: new FormControl("", Validators.pattern('[- +()0-9]+')),
+        phoneNumber: new FormControl(null, Validators.pattern('[- +()0-9]+')),
         icon: new FormControl(null),
         notes: new FormControl([]),
         photos: new FormControl([]),

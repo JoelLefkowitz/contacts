@@ -1,9 +1,8 @@
-import { Contact, ContactPayload } from 'src/api/contact.model';
+import { Contact, CreateContactPayload, UpdateContactPayload } from 'src/api/contact.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { mockContact, mockPaginatedContacts } from 'src/api/mocks';
 
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Paginated } from 'src/api/paginator.model';
 import { RestService } from './rest.service';
 import { SearchConfig } from 'src/api/search.model';
@@ -46,7 +45,7 @@ export class ContactsService {
     );
   }
   
-  createContact(payload: ContactPayload): Observable<Contact> {
+  createContact(payload: CreateContactPayload): Observable<Contact> {
     return this.http.post<Contact>(
       this.contactsBackend,
       payload,
@@ -56,10 +55,11 @@ export class ContactsService {
       )
     }
   
-  updateContact(contact: Contact): Observable<Contact> {
+  updateContact(payload: UpdateContactPayload): Observable<Contact> {
+    console.log(payload)
     return this.http.put<Contact>(
-      this.contactsBackend.concat(contact.id.toString(), "/"),
-      contact,
+      this.contactsBackend.concat(payload.id.toString(), "/"),
+      payload,
       this.restService.defaultHeaders()
     ).pipe(
       catchError(this.restService.handleError)
