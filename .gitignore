@@ -1,6 +1,10 @@
+# Custom
+*.env
+*.tfstate
+*.tfstate.backup
+terraform/.terraform/
 regisrty/media
 regisrty/registry/media
-
 __pypackages__/
 !.vscode/extensions.json
 !.vscode/launch.json
