@@ -1,6 +1,7 @@
 import { Contact, CreateContactPayload, UpdateContactPayload } from 'src/api/contact.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
+import { Image } from 'src/api/image.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Paginated } from 'src/api/paginator.model';
@@ -56,14 +57,30 @@ export class ContactsService {
     }
   
   updateContact(payload: UpdateContactPayload): Observable<Contact> {
-    console.log(payload)
     return this.http.put<Contact>(
       this.contactsBackend.concat(payload.id.toString(), "/"),
-      payload,
-      this.restService.defaultHeaders()
+      payload
     ).pipe(
       catchError(this.restService.handleError)
       )
+    }
+
+  setIcon(contact: Contact, icon?: Image): Observable<Contact> {
+    return this.http.put<Contact>(
+      this.contactsBackend.concat(contact.id.toString(), "/"),
+      icon ? icon.id : 1
+    ).pipe(
+      catchError(this.restService.handleError)
+      )
+    }
+  
+  setPhotos(contact: Contact, photos: Image[]): Observable<Contact> {
+    return this.http.put<Contact>(
+      this.contactsBackend.concat(contact.id.toString(), "/"),
+        photos.map(x => x.id)
+      ).pipe(
+        catchError(this.restService.handleError)
+        )
     }
  
   deleteContact(id: number): Observable<Contact> {

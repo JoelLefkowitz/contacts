@@ -22,7 +22,12 @@ export class UpdateIconDialogComponent implements OnInit {
     ngOnInit(): void {}
 
     onSubmit(): void {
-      this.data.icon = this.iconUpload.value
+      if (this.iconUpload.value) {
+        this.data.icon = {
+          name: this.iconUpload.value.name,
+          image: this.iconUpload.value
+        }
+      }
       this.dialogRef.close(this.data);
     }
 }

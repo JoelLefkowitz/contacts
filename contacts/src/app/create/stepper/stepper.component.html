@@ -44,7 +44,7 @@
                     accept="image/png, image/jpeg" optional>
                 </ngx-mat-file-input>
             </mat-form-field>
-            <button mat-button (click)="setIcon()">{{currentIcon ? 'Replace' : 'Add'}}</button>
+            <button [disabled]="!rawInputs.value.iconUpload" mat-button (click)="setIcon()">{{currentIcon ? 'Replace' : 'Add'}}</button>
         </mat-step>
         
         <mat-step stepControl="notes">
@@ -89,7 +89,6 @@
         </mat-step>
     </form>
 </mat-vertical-stepper>
-
     <button
             mat-flat-button
             type="submit"

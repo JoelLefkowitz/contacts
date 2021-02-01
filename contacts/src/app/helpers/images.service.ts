@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Image, ImagePayload } from 'src/api/image.model';
-import { Observable, from, fromEvent, of } from 'rxjs';
+import { Observable, forkJoin, from, fromEvent, of } from 'rxjs';
 import { catchError, delay, map, switchMap, tap, } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
@@ -34,11 +34,15 @@ export class ImagesService {
   }
 
   uploadImage(payload: ImagePayload): Observable<Image> {
-    let formData = new FormData();    
+    let formData = new FormData();
     formData.append("name", payload.name);
     formData.append("image", payload.image, payload.image.name);
     return this.http.post<Image>(this.imagesBackend, formData).pipe(
       catchError(this.restService.handleError)
     )
+  }
+  
+  uploadMultipleImages(payload: ImagePayload[]): Observable<Image[]> {
+    return forkJoin(payload.map(x => this.uploadImage(x)))
   }
 }

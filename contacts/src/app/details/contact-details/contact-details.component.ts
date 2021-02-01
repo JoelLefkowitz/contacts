@@ -105,7 +105,12 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
 
     pushPhotos(): void {
         this.contact.photos = this.contact.photos.concat(
-            this.rawInputs.value.photosUpload
+            this.rawInputs.value.photosUpload.map(
+                photoUpload => ({
+                    name: photoUpload.name,
+                    image: photoUpload
+                })
+            )
         );
         this.updateContact();
     }

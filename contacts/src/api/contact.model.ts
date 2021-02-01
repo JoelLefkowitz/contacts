@@ -6,21 +6,14 @@ interface PrivateFields {
     firstName: string;
     lastName: string;
     phoneNumber: string | null;
-    notes: string[] | null;
+    notes: string[];
 }
 
 interface ImageFields {
-    icon: Image | null;
+    icon: Image;
     photos: Image[];
 }
 
-// (Image | ImagePayload) for poth creating and updating.
-// This is to allow the reuse of upload images when creating and to update in place.
-interface ImagePayloadFields {    
-    icon: Image | ImagePayload | null;
-    photos: (Image | ImagePayload)[];
-}
-
 export type Contact = hasID & PrivateFields & ImageFields;
-export type CreateContactPayload = PrivateFields & ImagePayloadFields;
-export type UpdateContactPayload = hasID & PrivateFields & ImagePayloadFields;
+export type CreateContactPayload = PrivateFields
+export type UpdateContactPayload = hasID & PrivateFields

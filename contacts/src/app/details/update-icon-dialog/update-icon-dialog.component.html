@@ -8,6 +8,7 @@
         </ngx-mat-file-input>
     </mat-form-field>
     <button
+        [disabled]="!iconUpload.value"
         (click)="onSubmit()"
         class="submit-button"
         mat-flat-button
