@@ -1,0 +1,6 @@
+project: contacts
+version: 0.1.0
+author: Joel Lefkowitz
+verbose_name: Contacts
+html_title: Contacts
+github_url: JoelLefkowitz/contacts

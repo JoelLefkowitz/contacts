@@ -1,0 +1,9 @@
+docker_username: joellefkowitz
+domains: "contacts.joellefkowitz.co.uk"
+stack_name: prod
+compose_file: docker-compose.yml
+pull_images:
+  - joellefkowitz/contacts:0.1.0_prod
+  - joellefkowitz/registry:0.1.0_prod
+  - postgres:13
+  

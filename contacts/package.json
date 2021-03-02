@@ -1,11 +1,6 @@
 {
   "name": "contacts",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "ng serve --proxy-config dev.proxy.conf.json",
-    "electron": "ng build --base-href ./ && electron ./electron/main.js"
-  },
-  "private": true,
+  "version": "0.1.0",
   "dependencies": {
     "@angular-material-components/file-input": "^5.0.1",
     "@angular/animations": "~10.0.11",

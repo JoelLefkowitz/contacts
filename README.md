@@ -4,116 +4,79 @@ Angular/Electron application that models an address book.
 
 ## Status
 
-| Source     | Shields                                                        |
-| ---------- | -------------------------------------------------------------- |
-| Project    | ![license][license] ![release][release]                        |
-| Raised     | [![issues][issues]][issues_link] [![pulls][pulls]][pulls_link] |
+| Source     | Shields                                                                                                            |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| Project    | ![release][release_shield] ![license][license_shield] ![dependents][dependents_shield]                             |
+| Health     | ![travis][travis_shield] ![codacy][codacy_shield] ![coverage][coverage_shield] ![readthedocs][readthedocs_shield]  |
+| Repository | ![issues][issues_shield] ![pulls][pulls_shield]                                                                    |
+| Activity   | ![contributors][contributors_shield] ![monthly_commits][monthly_commits_shield] ![last_commit][last_commit_shield] |
 
-## Target architecture
+## Architecture
 
 ![Architecture][architecture]
 
-## Running
-
-### Development
-
-Create a virtual environemnt
+## Installation
 
 ```bash
-python -m venv venv
-source venv/bin/activate
+git clone https://github.com/JoelLefkowitz/contacts
 ```
 
-Install the server's dependencies
+## Tests
+
+To run unit tests:
 
 ```bash
-cd registry
-pip install .
+grunt tests:unit
 ```
 
-Run an instance of the server
+To generate a coverage report:
 
 ```bash
-sh tools/scripts/runserver.sh
-```
-
-To serve the frontend in the browser (port 4200)
-
-```bash
-cd contacts
-npm i
-```
-
-```bash
-npm run dev
-```
-
-To run with electron
-
-```bash
-npm run electron
-```
-
-### Production
-
-```bash
-cd registry
-docker build -t joellefkowitz/registry:0.1.0
-```
-
-```bash
-cd contacts
-docker build . -t joellefkowitz/contacts:0.1.0
-```
-
-```bash
-docker stack deploy prod -c compose/docker-compose.yml
+grunt tests:coverage
 ```
 
 ## Documentation
 
-Additional details are available in the [documentation][documentation]
+This repository's documentation is hosted on [readthedocs][readthedocs].
 
-## Roadmap
+To generate the sphinx configuration:
 
-- [0.2.0]
-  - Fix contacts image upload service
-  - Add registry/contacts integration tests
-  - Improve the profundity of unit tests
-  - Add Sphinx apidoc
-  - Add Varnish service
-  - Add Tagger service
-  - Add Celery integration
-  - Add Prometheus service
-  - Add Grafana service
+```bash
+grunt docs:generate
+```
 
-- [0.3.0]
-  - Add support for user profile
-  - Add widgets for collaborative sessions
+Then build the documentation:
 
-## Changelog
+```bash
+grunt docs:build
+```
 
-Please read [CHANGELOG.md](CHANGELOG.md) for details on changes that have been made.
+## Tooling
 
-## Naming convention
+To run linters:
 
-Project and repository name:
+```bash
+grunt lint
+```
 
-- Contacts
+To run formatters:
 
-Named services:
+```bash
+grunt format
+```
 
-- Contacts
-- Registry
-- Tagger
+Before commiting new code:
 
-Documentation alias:
+```bash
+grunt precommit
+```
 
-- Contact Kit
+This will run linters, formaters, generate a test coverage report and the sphinx configuration.
 
 ## Versioning
 
-[SemVer][semver] is used for versioning. For a list of versions available, see the tags on this repository.
+This repository adheres to semantic versioning standards.
+For more inforamtion on semantic versioning visit [SemVer][semver].
 
 Bump2version is used to version and tag changes.
 For example:
@@ -122,36 +85,64 @@ For example:
 bump2version patch
 ```
 
-Releases are made on every minor change.
+## Changelog
 
-## Author
-
-- **Joel Lefkowitz** - _Initial work_ - [Joel Lefkowitz][author]
-
-See also the list of contributors who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Please read this repository's [CHANGELOG](CHANGELOG.md) for details on changes that have been made.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
+Please read this repository's guidelines on [CONTRIBUTING](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-## Acknowledgments
+## Contributors
 
-None yet!
+- **Joel Lefkowitz** - _Initial work_ - [Joel Lefkowitz][joellefkowitz]
 
-<!-- Status table links -->
-[license]: https://img.shields.io/github/license/joellefkowitz/contacts
-[release]: https://img.shields.io/github/v/tag/joellefkowitz/contacts
-[issues]: https://img.shields.io/github/issues/joellefkowitz/contacts "Issues"
-[issues_link]: https://github.com/JoelLefkowitz/contacts/issues
-[pulls]: https://img.shields.io/github/issues-pr/joellefkowitz/contacts "Pull requests"
-[pulls_link]: https://github.com/JoelLefkowitz/contacts/pulls
+[![Buy Me A Coffee][coffee_button]][coffee]
 
-<!-- Plugable links -->
-[architecture]: https://github.com/JoelLefkowitz/contacts/raw/master/architecture.png "Architecture"
-[documentation]: https://contact-kit.readthedocs.io/en/latest/
-[author]: https://github.com/JoelLefkowitz
+## Remarks
+
+Lots of love to the open source community!
+
+![Be kind][be_kind]
+
+<!-- Github links -->
+
+[pulls]: https://github.com/JoelLefkowitz/contacts/pulls
+[issues]: https://github.com/JoelLefkowitz/contacts/issues
+[architecture]: https://github.com/JoelLefkowitz/contacts/raw/master/architecture.png
+
+<!-- External links -->
+
+[readthedocs]: https://joellefkowitz-contacts.readthedocs.io/en/latest/
 [semver]: http://semver.org/
+[coffee]: https://www.buymeacoffee.com/joellefkowitz
+[coffee_button]: https://cdn.buymeacoffee.com/buttons/default-blue.png
+[be_kind]: https://media.giphy.com/media/osAcIGTSyeovPq6Xph/giphy.gif
+
+<!-- Acknowledgments -->
+
+[joellefkowitz]: https://github.com/JoelLefkowitz
+
+<!-- Project shields -->
+
+[release_shield]: https://img.shields.io/github/v/tag/joellefkowitz/contacts
+[license_shield]: https://img.shields.io/github/license/joellefkowitz/contacts
+[dependents_shield]: https://img.shields.io/librariesio/dependent-repos/pypi/contacts
+
+<!-- Health shields -->
+
+[travis_shield]: https://img.shields.io/travis/joellefkowitz/contacts
+[codacy_shield]: https://img.shields.io/codacy/coverage/contacts
+[coverage_shield]: https://img.shields.io/codacy/grade/contacts
+[readthedocs_shield]: https://img.shields.io/readthedocs/joellefkowitz-contacts
+
+<!-- Repository shields -->
+
+[issues_shield]: https://img.shields.io/github/issues/joellefkowitz/contacts
+[pulls_shield]: https://img.shields.io/github/issues-pr/joellefkowitz/contacts
+
+<!-- Activity shields -->
+
+[contributors_shield]: https://img.shields.io/github/contributors/joellefkowitz/contacts
+[monthly_commits_shield]: https://img.shields.io/github/commit-activity/m/joellefkowitz/contacts
+[last_commit_shield]: https://img.shields.io/github/last-commit/joellefkowitz/contacts

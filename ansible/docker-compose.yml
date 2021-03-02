@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  angelics:
+    image: joellefkowitz/contacts:0.1.0_prod
+    ports:
+      - 80:80
+      - 443:443
+
+    volumes:
+    - type: bind
+      source: /etc/letsencrypt/live/contacts.joellefkowitz.co.uk/fullchain.pem
+      target: /etc/nginx/contacts.joellefkowitz.co.uk.crt
+    - type: bind
+      source: /etc/letsencrypt/live/contacts.joellefkowitz.co.uk/privkey.pem
+      target: /etc/nginx/contacts.joellefkowitz.co.uk.key
+
+  registry:
+    image: joellefkowitz/registry:0.1.0_prod
+    env_file: registry.env
+
+  postgres:
+    image: postgres:13
+    user: postgres
+    env_file: postgres.env
