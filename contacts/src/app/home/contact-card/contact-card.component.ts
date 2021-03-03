@@ -14,8 +14,10 @@ export class ContactCardComponent implements OnInit {
   constructor(private imagesService: ImagesService) { }
 
   ngOnInit(): void {}
-
-  iconUrl(iconId: number): string {
-    return iconId ? this.imagesService.imageUrl(iconId) : this.imagesService.placeholderImage
-  } 
+  
+  get icon(): string {
+    return this.contact.icon
+    ? this.contact.icon.image
+    : this.imagesService.getPlaceholder().image
+  }
 }

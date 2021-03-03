@@ -1,12 +1,13 @@
-import { Contact, ContactPayload } from 'src/api/contact.model';
+import { Contact, CreateContactPayload, UpdateContactPayload } from 'src/api/contact.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, tap, } from 'rxjs/operators';
 
+import { Image } from 'src/api/image.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Paginated } from 'src/api/paginator.model';
 import { RestService } from './rest.service';
 import { SearchConfig } from 'src/api/search.model';
+import { catchError, } from 'rxjs/operators';
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -18,7 +19,7 @@ export class ContactsService {
 
   constructor(private http: HttpClient, private restService: RestService) { }
   
-  searchContacts(searchInput: string, searchConfig: SearchConfig, limit?: number, offset?: number): Observable<Paginated<Contact>> {
+  searchContacts(searchInput: string, searchConfig: SearchConfig, limit?: number, offset?: number): Observable<Paginated<Contact>> {    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
@@ -36,16 +37,16 @@ export class ContactsService {
     )
   }
 
-  retrieveContact(contactId: number): Observable<Contact> {
+  retrieveContact(id: number): Observable<Contact> {    
     return this.http.get<Contact>(
-      this.contactsBackend.concat(contactId.toString(), "/"),
+      this.contactsBackend.concat(id.toString(), "/"),
       this.restService.defaultHeaders()
     ).pipe(
       catchError(this.restService.handleError)
     );
   }
   
-  createContact(payload: ContactPayload): Observable<Contact> {
+  createContact(payload: CreateContactPayload): Observable<Contact> {
     return this.http.post<Contact>(
       this.contactsBackend,
       payload,
@@ -55,22 +56,40 @@ export class ContactsService {
       )
     }
   
-  updateContact(payload: Contact): Observable<Contact> {
+  updateContact(payload: UpdateContactPayload): Observable<Contact> {
     return this.http.put<Contact>(
       this.contactsBackend.concat(payload.id.toString(), "/"),
-      payload, 
-      this.restService.defaultHeaders()
+      payload
     ).pipe(
       catchError(this.restService.handleError)
       )
     }
+
+  setIcon(contact: Contact, icon?: Image): Observable<Contact> {
+    return this.http.put<Contact>(
+      this.contactsBackend.concat(contact.id.toString(), "/"),
+      icon ? icon.id : 1
+    ).pipe(
+      catchError(this.restService.handleError)
+      )
+    }
+  
+  setPhotos(contact: Contact, photos: Image[]): Observable<Contact> {
+    return this.http.put<Contact>(
+      this.contactsBackend.concat(contact.id.toString(), "/"),
+        photos.map(x => x.id)
+      ).pipe(
+        catchError(this.restService.handleError)
+        )
+    }
  
-  deleteContact(contactId: number): Observable<Contact> {
+  deleteContact(id: number): Observable<Contact> {
     return this.http.delete<Contact>(
-      this.contactsBackend.concat(contactId.toString(), "/"),
+      this.contactsBackend.concat(id.toString(), "/"),
       this.restService.defaultHeaders()
     ).pipe(
       catchError(this.restService.handleError)
       )
     }
 }
+

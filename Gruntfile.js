@@ -1,35 +1,19 @@
-const init = require("./tools/grunt/init");
-const aliases = require("./tools/grunt/aliases");
+function quit(name) {
+  console.log("Task: '".concat(name, "' has not been implemented"));
+}
 
 module.exports = function (grunt) {
-    grunt.initConfig({
-            clean: init.toClean,
-            exec: init.execTasks,
-            watch: init.watchTasks
-    });
-    
-    grunt.loadNpmTasks("grunt-exec");
-    grunt.loadNpmTasks("grunt-force-task");
-    grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-contrib-watch");
-
-    aliases.aliasExecTasks(grunt, init.execTasks, init.toForce)
-    aliases.aliasWatchTasks(grunt, init.toWatch);
-
-    grunt.registerTask("lint", [
-        "cspell",
-        "eslint",
-        "pylint",
-        "bandit",
-    ]);
-    grunt.registerTask("format", [
-        "prettier",
-        "csscomb",
-        "presort",
-        "black",
-        "autoflake",
-        "isort",
-    ]);
-    grunt.registerTask("tests", [ "unitTests", "integrationTests", "e2eTests"]);
-    grunt.registerTask("prebuild", ["format", "lint", "tests"]);
+  grunt.initConfig();
+  grunt.registerTask("run", (env) => quit("run"));
+  grunt.registerTask("build", (env) => quit("build"));
+  grunt.registerTask("tests", (target) => quit("tests"));
+  grunt.registerTask("docs", (target) => quit("docs"));
+  grunt.registerTask("lint", () => quit("lint"));
+  grunt.registerTask("format", () => quit("format"));
+  grunt.registerTask("precommit", [
+    "lint",
+    "format",
+    "tests:coverage",
+    "docs:generate",
+  ]);
 };

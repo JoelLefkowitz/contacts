@@ -13,7 +13,6 @@ import { ContactsService } from 'src/app/helpers/contacts.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
   private searchInput = new BehaviorSubject<string>("");
   private searchConfig = new BehaviorSubject<SearchConfig>(defaultSearchConfig);
   private paginatorConfig = new BehaviorSubject<PaginatorConfig>(defaultPaginatorConfig);

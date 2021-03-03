@@ -1,130 +1,167 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Subscription, of } from "rxjs";
+import { tap } from "rxjs/operators";
+import { mergeOver } from "src/utils/objects";
 
-import { Contact } from 'src/api/contact.model';
-import { ContactsService } from 'src/app/helpers/contacts.service';
-import { Image } from 'src/api/image.model';
-import { ImagesService } from 'src/app/helpers/images.service';
+import { Contact } from "src/api/contact.model";
+import { ContactsService } from "src/app/helpers/contacts.service";
+import { ImagesService } from "src/app/helpers/images.service";
 import { MatDialog } from "@angular/material/dialog";
-import { UpdateDetailsDialogComponent } from "../update-details-dialog/update-details-dialog.component"
+import { UpdateIconDialogComponent } from "../update-icon-dialog/update-icon-dialog.component";
+import { UpdateNameDialogComponent } from "../update-name-dialog/update-name-dialog.component";
+import { UpdatePhoneNumberDialogComponent } from "../update-phone-number-dialog/update-phone-number-dialog.component";
 
 @Component({
-  selector: 'app-contact-details',
-  templateUrl: './contact-details.component.html',
-  styleUrls: ['./contact-details.component.scss']
+    selector: "app-contact-details",
+    templateUrl: "./contact-details.component.html",
+    styleUrls: ["./contact-details.component.scss"],
 })
 export class ContactDetailsComponent implements OnInit, OnDestroy {
+    contact: Contact;
+    editMode = false;
 
-  contact: Contact;
-  contactId: number;
-  
-  newPhoto = new FormControl();
-  
-  contactDetails = new FormGroup(
-    {newNote: new FormControl()}
-  )
-  
-  imageSubscription: Subscription
-  contactSubscription: Subscription
-  dialogSubscription: Subscription
-  
-  constructor(
-    private router: Router, 
-    private route: ActivatedRoute,
-    private contactsService: ContactsService,
-    private imagesService: ImagesService,
-    private dialog: MatDialog
-    ) {}
-  
-  // The contact model in the parent component might be dirty.
-  // Retrieve a fresh instance rather than copying it over.
-  ngOnInit(): void {
-    this.contactId = parseInt(this.route.snapshot.paramMap.get("id"), 10)
-    this.fetchContact()
-  }
-
-  fetchContact(): void {
-    this.contactSubscription = this.contactsService.retrieveContact(this.contactId).subscribe((contact:Contact) => this.contact = contact)
-  }
-
-  iconUrl(iconId: number): string {
-    return iconId ? this.imagesService.imageUrl(iconId) : this.imagesService.placeholderImage
-  }
-  
-  photoUrl(photoId: number){
-    return this.imagesService.imageUrl(photoId)
-  }
-  
-  updateBasicDetails(): void {
-    const dialogRef = this.dialog.open(UpdateDetailsDialogComponent, {
-      data: { 
-        firstName: this.contact.firstName,
-        lastName: this.contact.lastName,
-
-      },
+    rawInputs = new FormGroup({
+        noteInput: new FormControl(""),
+        photosUpload: new FormControl([]),
     });
-  this.dialogSubscription = dialogRef.afterClosed().pipe(
-    tap(
-      (result) => {
-        this.contact.firstName = result.firstName;
-        this.contact.lastName = result.lastName;
-      }),
-    switchMap(
-      (result) => result.newIcon ? this.imagesService.uploadImage(result.newPhoto) : of(null)
-    )
-  )
-  .subscribe((newIconId: number | null) => {this.contact.icon = newIconId; this.updateContact()});
-  }
-  
-  deleteNote(index: number): void {
-   this.contact.notes.splice(index, 1);
-   this.updateContact();
-  }
 
-  addNote(): void {
-    if (this.contactDetails.value.newNote) {
-      if (this.contact.notes){
-        this.contact.notes.unshift(this.contactDetails.value.newNote)
-      }
-      else {
-        this.contact.notes = [this.contactDetails.value.newNote]
-      }
-      this.updateContact();
+    subscriptions: Subscription[] = [];
+
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
+        private contactsService: ContactsService,
+        private imagesService: ImagesService,
+        private dialog: MatDialog
+    ) { }
+
+    // The contact model in the parent component might be dirty.
+    // Retrieve a fresh instance rather than copying it over.
+    ngOnInit(): void {
+        this.fetchContact(
+            parseInt(this.route.snapshot.paramMap.get("id"), 10)
+        );
     }
-  }
-  
-  addPhoto(): void {
-    if (this.newPhoto.value) {
-      this.imageSubscription = this.imagesService.uploadImage(this.newPhoto.value)
-      .subscribe(
-        (photo: Image) => {
-          this.contact.photos.unshift(photo.id);
-          this.updateContact()
+
+    get icon(): string {
+        return this.contact.icon
+            ? this.contact.icon.image
+            : this.imagesService.getPlaceholder().image;
+    }
+
+    toggleEditMode() {
+        this.editMode = !this.editMode
+    }
+
+    updateFromDialog(data: Object): void {
+        if (data !== undefined && mergeOver(this.contact, data)) {
+            this.updateContact();
         }
-      )
     }
-  }
-  
-  deletePhoto(index: number): void {
-    this.contact.photos.splice(index, 1);
-    this.updateContact();
-  }
-  
-  updateContact(): void {
-    this.contactSubscription = this.contactsService.updateContact(this.contact).subscribe();
-  }
-  
-  deleteContact(): void {
-    this.contactSubscription = this.contactsService.deleteContact(this.contactId).subscribe();
-    this.router.navigateByUrl("/")
-  }
-  
-  ngOnDestroy(): void {
-    if(this.imageSubscription){this.imageSubscription.unsubscribe()}
-    if(this.contactSubscription){this.contactSubscription.unsubscribe()}
-    if(this.dialogSubscription){this.dialogSubscription.unsubscribe()}
-  }
+
+    updateName(): void {
+        this.subscriptions.push(
+            this.dialog.open(
+            UpdateNameDialogComponent, {
+                data: {
+                    firstName: this.contact.firstName,
+                    lastName: this.contact.lastName
+                }
+            })
+            .afterClosed()
+            .subscribe(data => this.updateFromDialog(data))
+        )
+    }
+
+    updatePhoneNumber(): void {
+        this.subscriptions.push(
+            this.dialog.open(
+            UpdatePhoneNumberDialogComponent, {
+            data: {phoneNumber: this.contact.phoneNumber}
+        })
+        .afterClosed()
+        .subscribe(data => this.updateFromDialog(data))
+        );
+    }
+
+    setIcon(): void {
+        this.subscriptions.push(
+            this.dialog.open(
+            UpdateIconDialogComponent, {
+            data: {icon: this.contact.icon}
+        })
+        .afterClosed()
+        .subscribe(data => this.updateFromDialog(data))
+        );
+    }
+
+    pushNote(): void {
+        this.contact.notes = this.contact.notes ? this.contact.notes : [];
+        this.contact.notes.push(this.rawInputs.value.noteInput);
+        this.updateContact();
+    }
+
+    pushPhotos(): void {
+        this.contact.photos = this.contact.photos.concat(
+            this.rawInputs.value.photosUpload.map(
+                photoUpload => ({
+                    name: photoUpload.name,
+                    image: photoUpload
+                })
+            )
+        );
+        this.updateContact();
+    }
+
+    removeIcon(): void {
+        if (this.contact.icon) {
+            this.contact.icon = null;
+            this.updateContact()
+        }
+    }
+
+    popNote(note: string): void {
+        this.contact.notes = this.contact.notes.filter(x => x != note);
+        this.updateContact();
+    }
+
+    popPhoto(id: number): void {
+        this.contact.photos.filter(x => x.id != id);
+        this.updateContact();
+    }
+
+    fetchContact(id: number): void {
+        this.subscriptions.push(
+            this.contactsService
+                .retrieveContact(id)
+                .subscribe((contact: Contact) => {this.contact = contact})
+        );
+    }
+
+    updateContact(): void {
+        this.subscriptions.push(
+            this.contactsService
+                .updateContact(this.contact)
+                .subscribe()
+        );
+    }
+
+    deleteContact(): void {
+        this.subscriptions.push(
+            this.contactsService
+                .deleteContact(this.contact.id)
+                .subscribe()
+        );
+        this.router.navigateByUrl("/");
+    }
+
+    ngOnDestroy(): void {
+        for (let subscription of this.subscriptions) {
+            if (subscription) {
+                subscription.unsubscribe();
+            }
+        }
+    }
 }

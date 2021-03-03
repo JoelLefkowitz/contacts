@@ -1,28 +1,32 @@
 from rest_framework.serializers import (
     CharField,
+    ImageField,
     JSONField,
     ModelSerializer,
     PrimaryKeyRelatedField,
+    Serializer,
 )
 
 from .models import Contact, Image
 
 
 class ImageSerializer(ModelSerializer):
+    image = ImageField()
+
     class Meta:
         model = Image
-        fields = ["id", "image"]
+        fields = ["id", "name", "image"]
 
 
 class ContactSerializer(ModelSerializer):
     firstName = CharField(source="first_name")
     lastName = CharField(source="last_name")
     phoneNumber = CharField(source="phone_number", allow_null=True)
-
     notes = JSONField(allow_null=True)
-    icon = PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True)
-    photos = PrimaryKeyRelatedField(
-        queryset=Image.objects.all(), allow_null=True, many=True
+
+    icon = ImageSerializer(allow_null=True, read_only=True)
+    photos = ImageSerializer(
+        required=False, read_only=True, many=True
     )
 
     class Meta:
@@ -36,3 +40,15 @@ class ContactSerializer(ModelSerializer):
             "icon",
             "photos",
         ]
+
+
+class SetIconSerializer(Serializer):
+    icon = PrimaryKeyRelatedField(
+        queryset=Image.objects.all(), allow_null=True
+    )
+
+
+class SetPhotosSerializer(Serializer):
+    photos = PrimaryKeyRelatedField(
+        queryset=Image.objects.all(), many=True
+    )

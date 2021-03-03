@@ -1,43 +1,57 @@
-@import '~@angular/material/theming';
-.details-card
-{
-    overflow: scroll;
-    height: calc(100% - 50px);
-    margin: 10px;
+@import "~@angular/material/theming";
+$iconWidth: max(15%, 100px);
+
+.details-card {
+  overflow: scroll;
+  height: calc(100% - 50px);
+  margin: 10px;
 }
 
-.details-card-icon
-{
-    max-width: 10%;
-    margin: -10px 10px 10px auto;
+.details-card-icon {
+  max-width: $iconWidth;
+  margin: 0px 20px 10px auto;
 }
 
 .list-data {
-    margin-top: -5px;
-    margin-left: 50px;
+  margin-top: -5px;
+  margin-left: 50px;
 }
 
 .field-submit {
-    margin-left: 10px;
-    bottom: 5px;
+  margin-left: 10px;
+  bottom: 5px;
+}
+
+.phone-number {
+  margin: 10px 20px;
+}
+
+.edit-icon-container {
+  position: absolute;
+  display: block;
+  margin-left: $iconWidth;
+}
+
+.edit-icon {
+  position: relative;
 }
 
 .photo {
-    @include mat-elevation(3);
-    max-width: 10%;
-    margin: 20px 10px;
+  @include mat-elevation(3);
+  max-width: 10%;
+  margin: 20px 10px;
 }
 
 .img-container {
-    display: block;
-    position: relative;
+  display: block;
+  position: relative;
 }
 
 .action-button {
-    margin: 10px;
+  margin: 10px;
 }
 
 .inline-button {
-    position: relative;
-    bottom: 0px;
+  position: relative;
+  bottom: 0px;
 }

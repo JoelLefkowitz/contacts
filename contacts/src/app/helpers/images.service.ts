@@ -1,8 +1,8 @@
-import { Observable, from, of } from 'rxjs';
-import { catchError, map, switchMap, tap, } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Image, ImagePayload } from 'src/api/image.model';
+import { Observable, forkJoin, from, fromEvent, of } from 'rxjs';
+import { catchError, delay, map, switchMap, tap, } from 'rxjs/operators';
 
-import { HttpClient } from '@angular/common/http';
-import {Image} from 'src/api/image.model';
 import { Injectable } from '@angular/core';
 import { RestService } from './rest.service';
 import { environment } from "src/environments/environment";
@@ -13,15 +13,17 @@ import { environment } from "src/environments/environment";
 export class ImagesService {
 
   imagesBackend = environment.apiHost.concat("api/contacts/images/")
-  placeholderImage = "./assets/avatar.svg"
-  
+
   constructor(private http: HttpClient, private restService: RestService) { }
-
-
-  imageUrl(id: number): string {
-    return this.imagesBackend.concat(id.toString(), "/")
-  }
   
+  getPlaceholder(): Image {
+    return {
+        id: 0,
+        name: "placeholder",
+        image: environment.apiHost.concat("assets/avatar.svg")
+      }
+  }
+
   retrieveImage(imageId: number): Observable<Image> {
     return this.http.get<Image>(
       this.imagesBackend.concat(imageId.toString(), "/"),
@@ -30,15 +32,17 @@ export class ImagesService {
       catchError(this.restService.handleError)
     );
   }
-  
 
-  uploadImage(image: File): Observable<Image> {
-    return this.http.post<Image>(
-        this.imagesBackend,
-        {image},
-        this.restService.defaultHeaders()
-      ).pipe(
+  uploadImage(payload: ImagePayload): Observable<Image> {
+    let formData = new FormData();
+    formData.append("name", payload.name);
+    formData.append("image", payload.image, payload.image.name);
+    return this.http.post<Image>(this.imagesBackend, formData).pipe(
       catchError(this.restService.handleError)
-      )
-    }
+    )
+  }
+  
+  uploadMultipleImages(payload: ImagePayload[]): Observable<Image[]> {
+    return forkJoin(payload.map(x => this.uploadImage(x)))
+  }
 }

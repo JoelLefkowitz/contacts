@@ -1,9 +1,17 @@
-from rest_framework.viewsets import ModelViewSet
-from django.db.models import Q
-from rest_framework.response import Response
 import json
+
+from django.db.models import Q
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
 from .models import Contact, Image
-from .serializers import ContactSerializer, ImageSerializer
+from .serializers import (
+    ContactSerializer,
+    ImageSerializer,
+    SetIconSerializer,
+    SetPhotosSerializer,
+)
 
 
 class ImagesViewSet(ModelViewSet):
@@ -14,37 +22,71 @@ class ImagesViewSet(ModelViewSet):
 class ContactsViewSet(ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-            
+
     def list(self, request, *args, **kwargs):
-        search_input = self.request.query_params.get('searchInput', None)
+        sorter = lambda x: getattr(x, self.sort_field)
         queryset = self.filter_queryset(self.get_queryset())
-        
-        if search_input is not None:
+        queryset = self.search_queryset(queryset, self.search_input)
+        return self.sorted_response(queryset, sorter)
 
-            # First or last name case insensitive exact matching
-            if json.loads(self.request.query_params.get('exactMatch', None)):
-                queryset = queryset.filter(
-                    Q(first_name__iexact=search_input) |
-                    Q(last_name__iexact=search_input)
-                )
-            
-            # First or last name case insensitive matching
-            else: 
-                queryset = queryset.filter(
-                    Q(first_name__icontains=search_input) |
-                    Q(last_name__icontains=search_input)
-                )
-            
-        if self.request.query_params.get('sortBy', None) == "First name":
-            sorter = lambda x: x.first_name
+    @property
+    def search_input(self):
+        return self.request.query_params.get("searchInput", None)
+
+    @property
+    def sort_field(self):
+        if (
+            self.request.query_params.get("sortBy", None)
+            == "First name"
+        ):
+            return "first_name"
         else:
-            sorter = lambda x: x.last_name
+            return "last_name"
 
+    def search_queryset(self, queryset, search_input):
+        if search_input is None:
+            return queryset
+
+        # First or last name case insensitive exact matching
+        elif json.loads(
+            self.request.query_params.get("exactMatch", None)
+        ):
+            return queryset.filter(
+                Q(first_name__iexact=search_input)
+                | Q(last_name__iexact=search_input)
+            )
+
+        # First or last name case insensitive matching
+        else:
+            return queryset.filter(
+                Q(first_name__icontains=search_input)
+                | Q(last_name__icontains=search_input)
+            )
+
+    def sorted_response(self, queryset, sorter):
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(sorted(page, key=sorter), many=True)
+            serializer = self.get_serializer(
+                sorted(page, key=sorter), many=True
+            )
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+    def get_serializer_class(self):
+        return (
+            SetIconSerializer
+            if self.action == "set_icon"
+            else SetPhotosSerializer
+            if self.action == "set_photos"
+            else ContactSerializer
+        )
+
+    @action(methods=["put"], detail=False)
+    def set_icon(self, request, *args, **kwargs):
+        print(request, *args, **kwargs)
+
+    @action(detail=True, methods=["put"], name="Set photos")
+    def set_photos(self, request, pk=None):
+        print(request, *args, **kwargs)

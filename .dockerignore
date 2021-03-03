@@ -1,6 +1,14 @@
-**/.git
+!README.md
+.*
+*.md
 **/.DS_Store
-**/dist
+**/.git
+**/*.env
+**/*docker-compose.yml
+**/coverage
+**/docs
 **/node_modules
-**/venv
 **/sqlite3
+**/terraform
+**/test*
+**/venv
