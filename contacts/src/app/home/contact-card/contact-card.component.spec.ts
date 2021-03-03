@@ -1,16 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ContactCardComponent } from "./contact-card.component";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ContactCardComponent } from './contact-card.component';
-
-describe('ContactCardComponent', () => {
+describe("ContactCardComponent", () => {
   let component: ContactCardComponent;
   let fixture: ComponentFixture<ContactCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactCardComponent ]
-    })
-    .compileComponents();
+      declarations: [ContactCardComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +17,7 @@ describe('ContactCardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

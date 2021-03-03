@@ -1,19 +1,19 @@
 <div class="dialog-container">
-    <mat-form-field class="form-field">
-        <ngx-mat-file-input
-            [formControl]="iconUpload"
-            accept="image/png, image/jpeg"
-            optional
-        >
-        </ngx-mat-file-input>
-    </mat-form-field>
-    <button
-        [disabled]="!iconUpload.value"
-        (click)="onSubmit()"
-        class="submit-button"
-        mat-flat-button
-        color="primary"
+  <mat-form-field class="form-field">
+    <ngx-mat-file-input
+      [formControl]="iconUpload"
+      accept="image/png, image/jpeg"
+      optional
     >
-        Submit
-    </button>
+    </ngx-mat-file-input>
+  </mat-form-field>
+  <button
+    [disabled]="!iconUpload.value"
+    (click)="onSubmit()"
+    class="submit-button"
+    mat-flat-button
+    color="primary"
+  >
+    Submit
+  </button>
 </div>

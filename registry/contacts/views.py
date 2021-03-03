@@ -1,10 +1,17 @@
-from rest_framework.viewsets import ModelViewSet
-from django.db.models import Q
-from rest_framework.response import Response
 import json
-from .models import Contact, Image
+
+from django.db.models import Q
 from rest_framework.decorators import action
-from .serializers import ContactSerializer, ImageSerializer, SetIconSerializer, SetPhotosSerializer
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
+from .models import Contact, Image
+from .serializers import (
+    ContactSerializer,
+    ImageSerializer,
+    SetIconSerializer,
+    SetPhotosSerializer,
+)
 
 
 class ImagesViewSet(ModelViewSet):
@@ -28,7 +35,10 @@ class ContactsViewSet(ModelViewSet):
 
     @property
     def sort_field(self):
-        if self.request.query_params.get("sortBy", None) == "First name":
+        if (
+            self.request.query_params.get("sortBy", None)
+            == "First name"
+        ):
             return "first_name"
         else:
             return "last_name"
@@ -38,9 +48,12 @@ class ContactsViewSet(ModelViewSet):
             return queryset
 
         # First or last name case insensitive exact matching
-        elif json.loads(self.request.query_params.get("exactMatch", None)):
+        elif json.loads(
+            self.request.query_params.get("exactMatch", None)
+        ):
             return queryset.filter(
-                Q(first_name__iexact=search_input) | Q(last_name__iexact=search_input)
+                Q(first_name__iexact=search_input)
+                | Q(last_name__iexact=search_input)
             )
 
         # First or last name case insensitive matching
@@ -53,7 +66,9 @@ class ContactsViewSet(ModelViewSet):
     def sorted_response(self, queryset, sorter):
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(sorted(page, key=sorter), many=True)
+            serializer = self.get_serializer(
+                sorted(page, key=sorter), many=True
+            )
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)

@@ -1,6 +1,6 @@
 {
   "name": "contacts",
-  "description": "Angular/Electron application that models an address book",
+  "description": "Angular/Electron application that models an address book.",
   "version": "0.1.0",
   "license": "MIT",
   "author": "Joel Lefkowitz",

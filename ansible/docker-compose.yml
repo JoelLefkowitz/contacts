@@ -8,12 +8,12 @@ services:
       - 443:443
 
     volumes:
-    - type: bind
-      source: /etc/letsencrypt/live/contacts.joellefkowitz.co.uk/fullchain.pem
-      target: /etc/nginx/contacts.joellefkowitz.co.uk.crt
-    - type: bind
-      source: /etc/letsencrypt/live/contacts.joellefkowitz.co.uk/privkey.pem
-      target: /etc/nginx/contacts.joellefkowitz.co.uk.key
+      - type: bind
+        source: /etc/letsencrypt/live/contacts.joellefkowitz.co.uk/fullchain.pem
+        target: /etc/nginx/contacts.joellefkowitz.co.uk.crt
+      - type: bind
+        source: /etc/letsencrypt/live/contacts.joellefkowitz.co.uk/privkey.pem
+        target: /etc/nginx/contacts.joellefkowitz.co.uk.key
 
   registry:
     image: joellefkowitz/registry:0.1.0_prod

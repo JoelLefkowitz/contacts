@@ -5,12 +5,12 @@
 $primary: mat-palette($primary-palette, 500);
 $accent: mat-palette($secondary-palette, 500);
 $theme: mat-light-theme(
-    (
-        color: (
-            primary: $primary,
-            accent: $accent,
-        ),
-    )
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+    ),
+  )
 );
 
 @include angular-material-theme($theme);
@@ -18,14 +18,14 @@ $theme: mat-light-theme(
 $dark-primary: mat-palette($dark-primary-palette, 500);
 $dark-accent: mat-palette($secondary-palette, 500);
 $dark-theme: mat-dark-theme(
-    (
-        color: (
-            primary: $dark-primary,
-            accent: $dark-accent,
-        ),
-    )
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+    ),
+  )
 );
 
 .dark-theme {
-    @include angular-material-color($dark-theme);
+  @include angular-material-color($dark-theme);
 }

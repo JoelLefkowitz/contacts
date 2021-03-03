@@ -1,13 +1,13 @@
 from rest_framework.serializers import (
     CharField,
-    JSONField,
-    ModelSerializer,Serializer,
-    PrimaryKeyRelatedField,
     ImageField,
+    JSONField,
+    ModelSerializer,
+    PrimaryKeyRelatedField,
+    Serializer,
 )
 
 from .models import Contact, Image
-from contacts.utils.maybe import maybe_pop
 
 
 class ImageSerializer(ModelSerializer):
@@ -25,7 +25,9 @@ class ContactSerializer(ModelSerializer):
     notes = JSONField(allow_null=True)
 
     icon = ImageSerializer(allow_null=True, read_only=True)
-    photos = ImageSerializer(required=False, read_only=True, many=True)
+    photos = ImageSerializer(
+        required=False, read_only=True, many=True
+    )
 
     class Meta:
         model = Contact
@@ -39,8 +41,14 @@ class ContactSerializer(ModelSerializer):
             "photos",
         ]
 
+
 class SetIconSerializer(Serializer):
-    icon = PrimaryKeyRelatedField(queryset=Image.objects.all(), allow_null=True)
+    icon = PrimaryKeyRelatedField(
+        queryset=Image.objects.all(), allow_null=True
+    )
+
 
 class SetPhotosSerializer(Serializer):
-    photos = PrimaryKeyRelatedField(queryset=Image.objects.all(), many=True)
+    photos = PrimaryKeyRelatedField(
+        queryset=Image.objects.all(), many=True
+    )

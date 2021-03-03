@@ -1,18 +1,18 @@
 <div class="search-bar-container">
-    <mat-form-field appearance="outline" class="search-bar">
-        <mat-label>Search</mat-label>
-        <input
-            name="searchBarInput"
-            type="text"
-            [ngModel]="searchInput"
-            (ngModelChange)="inputChange($event)"
-            matInput
-            placeholder="placeholder"
-        />
-        <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <mat-progress-bar
-        *ngIf="showProgress | async"
-        mode="indeterminate"
-    ></mat-progress-bar>
+  <mat-form-field appearance="outline" class="search-bar">
+    <mat-label>Search</mat-label>
+    <input
+      name="searchBarInput"
+      type="text"
+      [ngModel]="searchInput"
+      (ngModelChange)="inputChange($event)"
+      matInput
+      placeholder="placeholder"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-progress-bar
+    *ngIf="showProgress | async"
+    mode="indeterminate"
+  ></mat-progress-bar>
 </div>

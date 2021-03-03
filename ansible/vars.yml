@@ -6,4 +6,3 @@ pull_images:
   - joellefkowitz/contacts:0.1.0_prod
   - joellefkowitz/registry:0.1.0_prod
   - postgres:13
-  

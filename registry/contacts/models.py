@@ -1,11 +1,12 @@
 from django.db.models import (
     CASCADE,
     CharField,
-    ImageField,
     ForeignKey,
+    ImageField,
     ManyToManyField,
     Model,
 )
+
 from jsonfield import JSONField
 
 
@@ -21,7 +22,12 @@ class Contact(Model):
 
     notes = JSONField(null=True)
 
-    icon = ForeignKey(Image, null=True, on_delete=CASCADE, related_name="icon_contacts")
+    icon = ForeignKey(
+        Image,
+        null=True,
+        on_delete=CASCADE,
+        related_name="icon_contacts",
+    )
     photos = ManyToManyField(Image)
 
     def __str__(self):

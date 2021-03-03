@@ -1,149 +1,138 @@
 <form [formGroup]="rawInputs">
-    <mat-card class="details-card" *ngIf="contact">
-        <mat-card-header>
-            <mat-card-title>{{
-                contact.lastName
-            }}</mat-card-title>
-            <mat-card-subtitle>{{
-                contact.firstName
-            }}</mat-card-subtitle>
-            <button
-                *ngIf="editMode"
-                (click)="updateName()"
-                mat-icon-button
-            >
-                <mat-icon>create</mat-icon>
-            </button>
-        </mat-card-header>
-        <mat-card-content>
-            <div class="edit-icon-container">
-                <button
-                    *ngIf="editMode"
-                    (click)="setIcon()"
-                    mat-icon-button
-                    class="edit-icon"
-                >
-                    <mat-icon>create</mat-icon>
-                </button>
-                <button
-                    *ngIf="editMode"
-                    (click)="removeIcon()"
-                    mat-icon-button
-                    class="edit-icon"
-                >
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </div>
-            <img class="details-card-icon" [src]="icon" />
-            <mat-list>
-                <mat-divider></mat-divider>
-                <mat-list-item
-                    >Phone number
-                    <button
-                        *ngIf="editMode"
-                        (click)="updatePhoneNumber()"
-                        mat-icon-button
-                    >
-                        <mat-icon>create</mat-icon>
-                    </button>
-                </mat-list-item>
-                <div class="phone-number">
-                    {{ contact.phoneNumber }}
-                </div>
+  <mat-card class="details-card" *ngIf="contact">
+    <mat-card-header>
+      <mat-card-title>{{ contact.lastName }}</mat-card-title>
+      <mat-card-subtitle>{{ contact.firstName }}</mat-card-subtitle>
+      <button *ngIf="editMode" (click)="updateName()" mat-icon-button>
+        <mat-icon>create</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="edit-icon-container">
+        <button
+          *ngIf="editMode"
+          (click)="setIcon()"
+          mat-icon-button
+          class="edit-icon"
+        >
+          <mat-icon>create</mat-icon>
+        </button>
+        <button
+          *ngIf="editMode"
+          (click)="removeIcon()"
+          mat-icon-button
+          class="edit-icon"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <img class="details-card-icon" [src]="icon" />
+      <mat-list>
+        <mat-divider></mat-divider>
+        <mat-list-item
+          >Phone number
+          <button
+            *ngIf="editMode"
+            (click)="updatePhoneNumber()"
+            mat-icon-button
+          >
+            <mat-icon>create</mat-icon>
+          </button>
+        </mat-list-item>
+        <div class="phone-number">
+          {{ contact.phoneNumber }}
+        </div>
 
-                <mat-divider></mat-divider>
-                <mat-list-item>Notes</mat-list-item>
-                <p *ngFor="let note of contact.notes">
-                    <button
-                        mat-icon-button
-                        (click)="popNote(note)"
-                    >
-                        <mat-icon>remove</mat-icon>
-                    </button>
-                    {{ note }}
-                </p>
-                <mat-form-field appearance="outline">
-                    <mat-label>New note</mat-label>
-                    <input
-                        type="text"
-                        matInput
-                        formControlName="noteInput"
-                        placeholder="New note"
-                    />
-                </mat-form-field>
-                <button
-                    [disabled]="!rawInputs.value.noteInput"
-                    type="button"
-                    class="field-submit"
-                    color="primary"
-                    mat-flat-button
-                    (click)="pushNote()"
-                >
-                    Submit
-                </button>
+        <mat-divider></mat-divider>
+        <mat-list-item>Notes</mat-list-item>
+        <p *ngFor="let note of contact.notes">
+          <button mat-icon-button (click)="popNote(note)">
+            <mat-icon>remove</mat-icon>
+          </button>
+          {{ note }}
+        </p>
+        <mat-form-field appearance="outline">
+          <mat-label>New note</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="noteInput"
+            placeholder="New note"
+          />
+        </mat-form-field>
+        <button
+          [disabled]="!rawInputs.value.noteInput"
+          type="button"
+          class="field-submit"
+          color="primary"
+          mat-flat-button
+          (click)="pushNote()"
+        >
+          Submit
+        </button>
 
-                <mat-divider></mat-divider>
-                <mat-list-item>Photos</mat-list-item>
-                <div
-                    fxLayout="row"
-                    fxLayoutAlign="start center"
-                    class="img-container"
-                    *ngFor="let photo of contact.photos"
-                >
-                    <button mat-icon-button>
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                    <img class="photo" [src]="photo.image" />
-                </div>
-                <mat-form-field appearance="outline">
-                    <ngx-mat-file-input
-                        formControlName="photosUpload"
-                        accept="image/png, image/jpeg"
-                        optional
-                        multiple
-                    >
-                    </ngx-mat-file-input>
-                    <mat-hint>Add photo</mat-hint>
-                </mat-form-field>
-                <button
-                    (click)="pushPhotos()"
-                    [disabled]="rawInputs.value.photosUpload.length == 0"
-                    type="button"
-                    class="field-submit"
-                    color="primary"
-                    mat-flat-button
-                >
-                    Submit
-                </button>
-            </mat-list>
-        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-list-item>Photos</mat-list-item>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          class="img-container"
+          *ngFor="let photo of contact.photos"
+        >
+          <button mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+          <img class="photo" [src]="photo.image" />
+        </div>
+        <mat-form-field appearance="outline">
+          <ngx-mat-file-input
+            formControlName="photosUpload"
+            accept="image/png, image/jpeg"
+            optional
+            multiple
+          >
+          </ngx-mat-file-input>
+          <mat-hint>Add photo</mat-hint>
+        </mat-form-field>
+        <button
+          (click)="pushPhotos()"
+          [disabled]="rawInputs.value.photosUpload.length == 0"
+          type="button"
+          class="field-submit"
+          color="primary"
+          mat-flat-button
+        >
+          Submit
+        </button>
+      </mat-list>
+    </mat-card-content>
 
-        <mat-card-actions>
-            <button
-                type="button"
-                (click)="toggleEditMode()"
-                class="action-button"
-                mat-flat-button
-                color="primary"
-            >
-                Toggle edit mode
-            </button>
-            <button
-                type="button"
-                (click)="deleteContact()"
-                class="action-button"
-                mat-flat-button
-                color="warn"
-            >
-                Delete contact
-            </button>
-        </mat-card-actions>
-    </mat-card>
+    <mat-card-actions>
+      <button
+        type="button"
+        (click)="toggleEditMode()"
+        class="action-button"
+        mat-flat-button
+        color="primary"
+      >
+        Toggle edit mode
+      </button>
+      <button
+        type="button"
+        (click)="deleteContact()"
+        class="action-button"
+        mat-flat-button
+        color="warn"
+      >
+        Delete contact
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </form>
 
 <app-fab
-    class="sticky-right-fab"
-    routerLink=""
-    aria-label="Go home"
-    icon="home"
+  class="sticky-right-fab"
+  routerLink=""
+  aria-label="Go home"
+  icon="home"
 ></app-fab>
