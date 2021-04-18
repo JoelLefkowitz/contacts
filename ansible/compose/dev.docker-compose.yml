@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+  contacts_nginx:
+    image: joellefkowitz/contacts_nginx:dev
+    env_file: dev.contacts_nginx.env
+    
+    ports:
+      - 4200:80
+    
+    depends_on:
+      - contacts
+      - contacts_server
+
+  contacts:
+    image: joellefkowitz/contacts:dev
+    env_file: dev.contacts.env
+
+  contacts_server:
+    image: joellefkowitz/contacts_server:dev
+    env_file: dev.contacts_server.env
+    depends_on:
+      - contacts_server_db
+
+  contacts_server_db:
+    image: joellefkowitz/contacts_server_db:dev
+    env_file: dev.contacts_server_db.env

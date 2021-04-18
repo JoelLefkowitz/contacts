@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  contacts_nginx:
+    image: joellefkowitz/contacts_nginx:staging
+    env_file: staging.contacts_nginx.env
+    ports:
+      - 80:80
+      - 443:443
+
+    volumes:
+      - type: bind
+        source: /etc/letsencrypt/live/staging.None/fullchain.pem
+        target: /etc/nginx/staging.None.crt
+      - type: bind
+        source: /etc/letsencrypt/live/staging.None/privkey.pem
+        target: /etc/nginx/staging.None.key
+
+    depends_on:
+      - contacts
+      - contacts_server
+
+  contacts:
+    image: joellefkowitz/contacts:staging
+    env_file: staging.contacts.env
+
+  contacts_server:
+    image: joellefkowitz/contacts_server:staging
+    env_file: staging.contacts_server.env
+    depends_on:
+      - contacts_server_db
+
+  contacts_server_db:
+    image: joellefkowitz/contacts_server_db:staging
+    env_file: staging.contacts_server_db.env

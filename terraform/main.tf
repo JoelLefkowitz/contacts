@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "elixir-contacts-terraform-backend" # nosec - Public bucket name
+    bucket = "contacts-contacts-terraform-backend" # nosec - Public bucket name
     key    = "AKIAJUIXDXBKSWSVTZKA" # nosec - Public key component
     region = "eu-west-2"
   }
@@ -23,7 +23,7 @@ provider "digitalocean" {
 
 provider "aws" {
   region = var.aws_region
-  access_key = "AKIAJUIXDXBKSWSVTZKA" # nosec - Public key component
+  access_key  = "AKIAJUIXDXBKSWSVTZKA" # nosec - Public key component
   secret_key = var.AWS_SECRET_KEY
 }
 
@@ -34,9 +34,23 @@ module "cluster" {
   project = "contacts"
   env = "production"
 
-  droplet_count = 0
+  droplet_count = 1
   ssh_dir = "~/.ssh/contacts"
   
-  domain = "contacts.joellefkowitz.co.uk"
+  domain = "None"
+  has_floating = true
+}
+
+module "staging_cluster" {
+  source  = "JoelLefkowitz/cluster/digitalocean"
+  version = "1.4.5"
+  
+  project = "contacts"
+  env = "staging"
+
+  droplet_count = 1
+  ssh_dir = "~/.ssh/contacts"
+  
+  domain = "staging.None"
   has_floating = true
 }

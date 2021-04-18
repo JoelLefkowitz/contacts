@@ -1,0 +1,36 @@
+version: "3.3"
+
+services:
+  contacts_nginx:
+    image: joellefkowitz/contacts_nginx:prod
+    env_file: prod.contacts_nginx.env
+    
+    ports:
+      - 80:80
+      - 443:443
+
+    volumes:
+      - type: bind
+        source: /etc/letsencrypt/live/None/fullchain.pem
+        target: /etc/nginx/None.crt
+      - type: bind
+        source: /etc/letsencrypt/live/None/privkey.pem
+        target: /etc/nginx/None.key
+
+    depends_on:
+      - contacts
+      - contacts_server
+
+  contacts:
+    image: joellefkowitz/contacts:prod
+    env_file: prod.contacts.env
+
+  contacts_server:
+    image: joellefkowitz/contacts_server:prod
+    env_file: prod.contacts_server.env
+    depends_on:
+      - contacts_server_db
+
+  contacts_server_db:
+    image: joellefkowitz/contacts_server_db:prod
+    env_file: prod.contacts_server_db.env

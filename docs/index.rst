@@ -1,7 +1,7 @@
-Contacts
+contacts
 ============
 
-Welcome to Contacts's documentation!
+Welcome to contacts's documentation!
 
 .. raw:: html
    :file: README.html

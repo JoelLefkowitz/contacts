@@ -21,7 +21,7 @@ extensions = [
     "sphinxcontrib.apidoc",
 ]
 
-html_title = "Contacts"
+html_title = "contacts"
 html_favicon = "static/favicon.ico"
 
 html_static_path = ["static"]
@@ -47,7 +47,7 @@ napoleon_google_docstring = True
 html_theme = "yummy_sphinx_theme"
 html_theme_options = {
     "navbar_icon": "spin fa-book",
-    "github_url": "JoelLefkowitz/contacts"
+    "github_url": "https://github.com/JoelLefkowitz/contacts"
 }
 
 """
@@ -58,7 +58,13 @@ html_theme_options = {
 copyright = f"{datetime.datetime.now().year} {author}"
 
 with open("../README.md", "r") as stream:
-    html_readme = pypandoc.convert(stream.read(), "html", format="md", extra_args=["-fmarkdown-implicit_figures"])
+    html_readme = pypandoc.convert(
+        stream.read(),
+        "html",
+        format="md",
+        extra_args=["-s", "-fmarkdown-implicit_figures"]
+    )
+    
     headerless_readme = re.sub("<h1.*>.*?</h1>", "", html_readme, flags=re.DOTALL)
 
 with open("README.html", "w") as stream:
