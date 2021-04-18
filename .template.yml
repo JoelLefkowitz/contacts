@@ -1,0 +1,69 @@
+output_dir: .
+
+clear_top_level: true
+logical_grouping: true
+
+collections:
+  - common
+  - pwa
+
+collection_sources:
+  - templ8_pwa
+
+loader_paths:
+  - docs
+
+render_context:
+  project:
+    project_name: contacts
+    version: 0.1.0
+
+    verbose_name: contacts
+    description: Angular/Electron application that models an address book.
+
+    repository: https://github.com/JoelLefkowitz/contacts
+    codacy_id: 877e57ad8d9a4870ac3ce1457a76bcb7
+
+    inserts:
+      - usage.md
+
+  author:
+    author: Joel Lefkowitz
+    author_email: joellefkowitz@hotmail.com
+    author_github_handle: joellefkowitz
+
+  pwa:
+    terraform_prefix: contacts
+    app_name: contacts
+    docker_namespace: joellefkowitz
+    server_name: contacts_server
+
+    # cspell:disable-next-line
+    aws_public_key: AKIAJUIXDXBKSWSVTZKA # nosec - Public key component
+
+  portfolio:
+    is_portfolio: true
+    status_level: 5
+    homepage: https://contacts.joellefkowitz.co.uk
+
+    languages:
+      - TypeScript
+      - Python
+
+    frameworks:
+      - Angular
+      - Electron
+      - Ansible
+      - Concourse
+      - Django
+      - Grafana
+      - Locust
+      - Memcached
+      - Nginx
+      - Postgres
+      - Prometheus
+      - Terraform
+
+    paradigms:
+      - Containerised microservices
+      - Object oriented programming
